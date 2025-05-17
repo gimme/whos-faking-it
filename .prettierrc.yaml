@@ -1,0 +1,15 @@
+tabWidth: 4
+semi: false
+overrides:
+  - files: ["*.yaml", "*.yml"]
+    options:
+      tabWidth: 2
+importOrder:
+  - "^react"
+  - "<THIRD_PARTY_MODULES>"
+  - "^@mui/"
+  - "^@/"
+  - "^[./]"
+importOrderSeparation: true
+importOrderSortSpecifiers: true
+plugins: ["@trivago/prettier-plugin-sort-imports"]
