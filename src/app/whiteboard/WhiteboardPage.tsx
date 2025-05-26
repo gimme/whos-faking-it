@@ -1,6 +1,6 @@
 import { Box } from "@mui/material"
 
-import { Whiteboard } from "@/features/whiteboard/Whiteboard"
+import { Whiteboard } from "@/app/whiteboard/Whiteboard"
 
 export function WhiteboardPage() {
     return (

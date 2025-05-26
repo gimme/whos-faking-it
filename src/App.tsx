@@ -2,7 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router"
 
 import { CssBaseline, ThemeProvider, useMediaQuery } from "@mui/material"
 
-import { WhiteboardPage } from "@/features/whiteboard/WhiteboardPage"
+import { WhiteboardPage } from "@/app/whiteboard/WhiteboardPage"
 import { getTheme } from "@/theme"
 
 export default function App() {

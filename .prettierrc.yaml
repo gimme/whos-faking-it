@@ -1,5 +1,6 @@
 tabWidth: 4
 semi: false
+printWidth: 120
 overrides:
   - files: ["*.yaml", "*.yml"]
     options:
