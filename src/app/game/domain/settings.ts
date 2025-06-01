@@ -12,7 +12,7 @@ type ModuleIndex = number
 /**
  * A list of indexes representing the modules included in the game.
  */
-type IncludedModules = ReadonlyArray<ModuleIndex>
+export type IncludedModules = ReadonlyArray<ModuleIndex>
 
 export function createGameSettings(seatCount: SeatCount, includedModules: IncludedModules): GameSettings {
     return {

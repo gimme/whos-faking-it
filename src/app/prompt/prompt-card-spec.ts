@@ -5,40 +5,31 @@ import type { NonEmptyArray, RNG } from "@/common.types"
 /**
  * A specification for generating prompt cards of a specific type in the game.
  */
-export type PromptSpec = {
-    /**
-     * Main prompts to use for the card.
-     */
-    readonly prompt: PromptGroup
+export type PromptCardSpec = {
     readonly tags?: NonEmptyArray<Tag>
-} & FakePromptSpec
-
-/**
- * Specifies what fake prompts to use for the card.
- */
-type FakePromptSpec =
+} & (
     | {
           /**
-           * The only fake prompts to pick from.
+           * Main prompts to use for the card.
            */
-          readonly fakePrompt: PromptGroup
+          readonly prompts: NonEmptyArray<Prompt>
+          readonly realPrompts?: NonEmptyArray<Prompt>
+          readonly fakePrompts?: NonEmptyArray<Prompt>
       }
     | {
-          /**
-           * Extra fake prompts to pick from in addition to the main prompts.
-           */
-          readonly extraFakePrompt?: PromptGroup
+          readonly realPrompts: NonEmptyArray<Prompt>
+          readonly fakePrompts: NonEmptyArray<Prompt>
       }
+)
 
-type PromptGroup = Prompt | NonEmptyArray<Prompt>
 type Prompt = string | { readonly prompt: string; readonly tags: NonEmptyArray<Tag> }
 
 /**
  * Generates a set of unique cards based on the given prompt specification.
- * @param spec The prompt specification
- * @param rng A random number generator to determine the randomness of prompt selection
+ * @param spec The prompt card specification
+ * @param rng A random number generator to source the randomness of prompt selection
  */
-export function generateCardsFromSpec(spec: PromptSpec, rng: RNG): Card[] {
+export function generateCardsFromSpec(spec: PromptCardSpec, rng: RNG): Card[] {
     const realPromptOptions = getRealPromptOptions(spec)
     const fakePromptOptions = getFakePromptOptions(spec)
 
@@ -83,22 +74,19 @@ function generateCardsFromOptions(
     return [card, ...generateCardsFromOptions(unusedRealPrompts, unusedFakePrompts, tags, rng)]
 }
 
-function getRealPromptOptions(spec: PromptSpec): NonEmptyArray<Prompt> {
-    const realPrompt = spec.prompt
-    return Array.isArray(realPrompt) ? realPrompt : [realPrompt]
+function getRealPromptOptions(spec: PromptCardSpec): NonEmptyArray<Prompt> {
+    if ("prompts" in spec) {
+        return [...spec.prompts, ...(spec.realPrompts ?? [])]
+    } else {
+        return spec.realPrompts
+    }
 }
 
-function getFakePromptOptions(spec: PromptSpec): NonEmptyArray<Prompt> {
-    const fakePrompt = "fakePrompt" in spec ? spec.fakePrompt : undefined
-    const extraFakePrompt = "extraFakePrompt" in spec ? spec.extraFakePrompt : undefined
-
-    if (fakePrompt === undefined) {
-        const realPromptOptions = getRealPromptOptions(spec)
-        const extraFakePrompts =
-            extraFakePrompt === undefined ? [] : Array.isArray(extraFakePrompt) ? extraFakePrompt : [extraFakePrompt]
-        return [...realPromptOptions, ...extraFakePrompts]
+function getFakePromptOptions(spec: PromptCardSpec): NonEmptyArray<Prompt> {
+    if ("prompts" in spec) {
+        return [...spec.prompts, ...(spec.fakePrompts ?? [])]
     } else {
-        return Array.isArray(fakePrompt) ? fakePrompt : [fakePrompt]
+        return spec.fakePrompts
     }
 }
 

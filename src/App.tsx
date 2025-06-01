@@ -2,8 +2,10 @@ import { BrowserRouter, Route, Routes } from "react-router"
 
 import { CssBaseline, ThemeProvider, useMediaQuery } from "@mui/material"
 
-import Game from "@/app/game/ui/Game"
-import { WhiteboardPage } from "@/app/whiteboard/WhiteboardPage"
+import GamePage from "@/app/game/ui/GamePage"
+import LobbyPage from "@/app/lobby/LobbyPage"
+import RoomSettingsPage from "@/app/lobby/RoomSettingsPage"
+import SeatingPage from "@/app/lobby/SeatingPage"
 import { getTheme } from "@/theme"
 
 export default function App() {
@@ -12,11 +14,13 @@ export default function App() {
     return (
         <ThemeProvider theme={getTheme(prefersDarkMode)}>
             <CssBaseline />
-            <BrowserRouter>
+            <BrowserRouter basename="/whos-faking-it">
                 <Routes>
-                    <Route path="/whos-faking-it">
-                        <Route index element={<WhiteboardPage />} />
-                        <Route path="/whos-faking-it/:gameCode/:seat" element={<Game />} />
+                    <Route path="/">
+                        <Route index element={<LobbyPage />} />
+                        <Route path="/create" element={<RoomSettingsPage />} />
+                        <Route path="/:gameCode" element={<SeatingPage />} />
+                        <Route path="/:gameCode/:seat/:roundNumber" element={<GamePage />} />
                     </Route>
                 </Routes>
             </BrowserRouter>

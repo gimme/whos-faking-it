@@ -64,6 +64,8 @@ export function DeterministicGameGenerator(): GameService {
         if (seed === undefined) {
             seed = (Math.random() * 36).toString(36).split(".")[0]
         }
+        // TODO: Use better encoding
+        // TODO: Add date entropy to the seed
         return `${seed}-${settings.seatCount}-${settings.includedModules.join(",")}`
     }
 
