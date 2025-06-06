@@ -8,7 +8,7 @@ import type { Role } from "@/app/game/domain/role"
 import type { Round } from "@/app/game/domain/round"
 import { type GameSettings, createGameSettings } from "@/app/game/domain/settings"
 import { generateCardsFromModule } from "@/app/prompt/module"
-import { availableModules } from "@/assets/prompts/modules"
+import { playableModules } from "@/assets/prompts/modules"
 import type { RNG } from "@/common.types"
 
 /**
@@ -27,7 +27,7 @@ export function DeterministicGameGenerator(): GameService {
         const seededRng = seedrandom(code)
         const rng = () => seededRng()
 
-        const modulesToUse = availableModules.filter((_, index) => settings.includedModules.includes(index))
+        const modulesToUse = playableModules.filter((_, index) => settings.includedModules.includes(index))
         const generatedCards = modulesToUse.flatMap((module) => generateCardsFromModule(module, rng))
         const shuffledDeck = shuffleCards(generatedCards, rng)
 

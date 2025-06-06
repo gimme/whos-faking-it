@@ -8,14 +8,14 @@ import { useGameService } from "@/app/game"
 import type { Game } from "@/app/game/domain/game"
 import type { SeatCount } from "@/app/game/domain/player"
 import { type GameSettings, type IncludedModules, createGameSettings } from "@/app/game/domain/settings"
-import { availableModules } from "@/assets/prompts/modules"
+import { playableModules } from "@/assets/prompts/modules"
 import strings from "@/assets/strings"
 import { MainContainer } from "@/components/MainContainer"
 
 export default function RoomSettingsPage() {
     const navigate = useNavigate()
     const gameService = useGameService()
-    const modules = availableModules
+    const modules = playableModules
 
     const [seatCount, setSeatCount] = useState<SeatCount>(4)
     // TODO: Configurable module selection
