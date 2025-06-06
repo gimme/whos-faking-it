@@ -6,7 +6,13 @@ import { type Game, type GameCode, createGame } from "@/app/game/domain/game"
 import type { SeatCount } from "@/app/game/domain/player"
 import type { Role } from "@/app/game/domain/role"
 import type { Round } from "@/app/game/domain/round"
-import { type GameSettings, createGameSettings } from "@/app/game/domain/settings"
+import { type GameSettings } from "@/app/game/domain/settings"
+import {
+    decodeEntropyFromGameCode,
+    decodeGameSettings,
+    encodeGameSettings,
+    getDateOffsetFromGameCode,
+} from "@/app/game/infrastructure/settings-encoding"
 import { generateCardsFromModule } from "@/app/prompt/module"
 import { playableModules } from "@/assets/prompts/modules"
 import type { RNG } from "@/common.types"
@@ -17,14 +23,16 @@ import type { RNG } from "@/common.types"
  */
 export function DeterministicGameGenerator(): GameService {
     function generateGameDeterministicallyFromCode(code: GameCode): Game {
-        const settings = decodeSettings(code)!
+        const settings = decodeGameSettings(code)
         const rounds = generateRounds(settings, code)
 
         return createGame(code, settings, rounds)
     }
 
     function generateRounds(settings: GameSettings, code: GameCode): ReadonlyArray<Round> {
-        const seededRng = seedrandom(code)
+        const dateOffset = getDateOffsetFromGameCode(code)
+        const epochDays = Date.now() / (1000 * 60 * 60 * 24) - dateOffset
+        const seededRng = seedrandom(code + epochDays)
         const rng = () => seededRng()
 
         const modulesToUse = playableModules.filter((_, index) => settings.includedModules.includes(index))
@@ -60,37 +68,14 @@ export function DeterministicGameGenerator(): GameService {
         })
     }
 
-    function encodeSettings(settings: GameSettings, seed?: string): GameCode {
-        if (seed === undefined) {
-            seed = (Math.random() * 36).toString(36).split(".")[0]
-        }
-        // TODO: Use better encoding
-        // TODO: Add date entropy to the seed
-        return `${seed}-${settings.seatCount}-${settings.includedModules.join(",")}`
-    }
-
-    function decodeSettings(code: GameCode): GameSettings {
-        const parts = code.split("-")
-
-        const seats = parseInt(parts[1], 10) as SeatCount
-        const includedModules = parts[2].split(",").map((index) => parseInt(index, 10))
-
-        return createGameSettings(seats, includedModules)
-    }
-
-    function decodeSeed(code: GameCode): string {
-        const parts = code.split("-")
-        return parts[0]
-    }
-
     return {
         createNewGame(settings: GameSettings): Game {
-            const newCode = encodeSettings(settings)
+            const newCode = encodeGameSettings(settings)
             return generateGameDeterministicallyFromCode(newCode)
         },
         changeSettings(code: GameCode, settings: GameSettings): Game {
-            const seed = decodeSeed(code)
-            const newCode = encodeSettings(settings, seed)
+            const entropy = decodeEntropyFromGameCode(code)
+            const newCode = encodeGameSettings(settings, entropy)
             return generateGameDeterministicallyFromCode(newCode)
         },
         findByCode(code: GameCode): Game | undefined {
