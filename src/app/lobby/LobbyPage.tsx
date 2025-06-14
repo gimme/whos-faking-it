@@ -25,7 +25,7 @@ export default function LobbyPage() {
     return (
         <>
             <MainContainer>
-                <Stack direction="column" spacing={2} sx={{ width: "100%" }}>
+                <Stack spacing={2} width={"100%"}>
                     <Typography component="h1" variant="h4" align="center">
                         {strings.meta.name}
                     </Typography>
@@ -35,7 +35,6 @@ export default function LobbyPage() {
                         id="code"
                         type="text"
                         label={strings.common.code}
-                        sx={{ textTransform: "capitalize" }}
                         value={joinCode}
                         onChange={onChangeCode}
                     />

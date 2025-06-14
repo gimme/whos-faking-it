@@ -1,7 +1,8 @@
 import { useMemo, useState } from "react"
 import { useNavigate, useParams } from "react-router"
 
-import { Box, Button, Stack, Typography } from "@mui/material"
+import BrushIcon from "@mui/icons-material/Brush"
+import { Box, Button, Fab, Stack, Typography } from "@mui/material"
 
 import { useGameService } from "@/app/game"
 import { getNextRound, getRound } from "@/app/game/domain/game"
@@ -85,9 +86,6 @@ export default function GamePage() {
                     {strings.game.round} {roundNumber}
                 </Typography>
                 <Stack spacing={2}>
-                    <Typography component="h2" variant="h5" align="center">
-                        {strings.game.prompt}:
-                    </Typography>
                     <Box
                         onClick={handleClickPrompt}
                         sx={{
@@ -128,6 +126,14 @@ export default function GamePage() {
                     {strings.game.next}
                 </Button>
             </Stack>
+            <Fab
+                color="primary"
+                aria-label="open whiteboard"
+                sx={{ position: "fixed", bottom: 32, right: 32 }}
+                onClick={() => navigate(`/whiteboard`)}
+            >
+                <BrushIcon />
+            </Fab>
         </MainContainer>
     )
 }

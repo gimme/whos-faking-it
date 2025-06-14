@@ -22,7 +22,7 @@ const howManyTimesPer: PromptCardSpec = {
         "How many times per year do you go to the cinema?",
         "How many books do you read per year?",
     ],
-    fakePrompts: ["Pick a number between 0 and 20."],
+    fakePrompts: ["Pick a number from 0–20."],
 }
 
 const howManyLow: PromptCardSpec = {
@@ -50,7 +50,7 @@ const howManyLow: PromptCardSpec = {
         { tags: ["trivia"], prompt: "How many people have walked on the moon?" },
         { tags: ["trivia"], prompt: "How many sequels are there to The Fast and the Furious?" },
     ],
-    fakePrompts: ["Pick a number between 0 and 10."],
+    fakePrompts: ["Pick a number from 0–10."],
 }
 
 const howManyMedium: PromptCardSpec = {
@@ -69,7 +69,7 @@ const howManyMedium: PromptCardSpec = {
         { tags: ["trivia"], prompt: "How many eggs does a chicken lay in a month?" },
         { tags: ["trivia"], prompt: "How many players are there in an NFL team?" },
     ],
-    fakePrompts: ["Pick a number between 10 and 100."],
+    fakePrompts: ["Pick a number from 10–100."],
 }
 
 const howManyHigh: PromptCardSpec = {
@@ -79,20 +79,20 @@ const howManyHigh: PromptCardSpec = {
         { tags: ["trivia"], prompt: "How many people have been to space?" },
         "If you stopped aging today and were forced to live until a certain age, what number would you pick?",
     ],
-    fakePrompts: ["Pick a number between 100 and 10,000."],
+    fakePrompts: ["Pick a number from 100–10,000."],
 }
 
 const howManyHotDogs: PromptCardSpec = {
     prompts: [
-        "How many hot dogs would you eat today if you were paid $10 for each one?",
-        "How many hot dogs would you eat today if you were paid $1 million for each one?",
+        "How many hot dogs would you eat today if you got $10 for each one?",
+        "How many hot dogs would you eat today if you got $1 million for each one?",
     ],
 }
 
 const howManyContinents: PromptCardSpec = {
     tags: ["trivia"],
     realPrompts: ["How many continents are there?"],
-    fakePrompts: ["Pick a number between 3 and 8."],
+    fakePrompts: ["Pick a number from 3–8."],
 }
 
 const outOf10: PromptCardSpec = {
@@ -106,7 +106,7 @@ const outOf10: PromptCardSpec = {
         "Rate Shrek out of 10.",
         "How many free throws can you make out of 10?",
     ],
-    fakePrompts: ["Pick a number between 0 and 10."],
+    fakePrompts: ["Pick a number from 0–10."],
 }
 
 export const numericalModule: Module = {

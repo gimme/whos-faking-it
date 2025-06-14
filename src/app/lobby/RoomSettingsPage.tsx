@@ -2,7 +2,17 @@ import { useMemo, useState } from "react"
 import { useNavigate } from "react-router"
 
 import ContentCopyIcon from "@mui/icons-material/ContentCopy"
-import { Button, IconButton, InputAdornment, InputLabel, Stack, TextField } from "@mui/material"
+import {
+    Button,
+    IconButton,
+    InputAdornment,
+    InputLabel,
+    Snackbar,
+    Stack,
+    TextField,
+    Tooltip,
+    Typography,
+} from "@mui/material"
 
 import { useGameService } from "@/app/game"
 import type { Game } from "@/app/game/domain/game"
@@ -17,11 +27,15 @@ export default function RoomSettingsPage() {
     const gameService = useGameService()
     const modules = playableModules
 
+    const [open, setOpen] = useState(false)
     const [seatCount, setSeatCount] = useState<SeatCount>(4)
     // TODO: Configurable module selection
     const [includedModules] = useState<IncludedModules>(modules.map((_, index) => index))
 
-    const settings: GameSettings = createGameSettings(seatCount, includedModules)
+    const settings: GameSettings = useMemo(
+        () => createGameSettings(seatCount, includedModules),
+        [seatCount, includedModules],
+    )
     const game: Game = useMemo(() => gameService.createNewGame(settings), [gameService, settings])
     const gameCode = game.code
 
@@ -31,14 +45,15 @@ export default function RoomSettingsPage() {
 
     const handleCopy = () => {
         navigator.clipboard.writeText(gameCode).then(() => {
-            // Optionally, you can show a notification or feedback to the user
+            // TODO: show a notification or feedback to the user
             console.log("Game code copied to clipboard")
+            setOpen(true)
         })
     }
 
     const SeatCountSelect = () => (
         <Stack spacing={2}>
-            <InputLabel id="seatCount-label" sx={{ textAlign: "center", fontSize: "1.2rem" }}>
+            <InputLabel id="seatCount-label" style={{ textAlign: "center", fontSize: "1.2rem" }}>
                 <strong>{strings.room.seatCount}:</strong>
             </InputLabel>
             <Stack direction="row" spacing={2} useFlexGap flexWrap={"wrap"} justifyContent={"center"}>
@@ -49,7 +64,7 @@ export default function RoomSettingsPage() {
                         value={count.toString()}
                         onClick={() => setSeatCount(count as SeatCount)}
                         aria-label={`seat-count-${count}`}
-                        sx={{ minWidth: "90px", minHeight: "60px" }}
+                        style={{ minWidth: "90px", minHeight: "60px" }}
                     >
                         {count}
                     </Button>
@@ -63,6 +78,9 @@ export default function RoomSettingsPage() {
             value={gameCode}
             fullWidth
             label={strings.common.code}
+            onFocus={(event) => {
+                event.target.select()
+            }}
             slotProps={{
                 htmlInput: {
                     readOnly: true,
@@ -70,9 +88,18 @@ export default function RoomSettingsPage() {
                 input: {
                     endAdornment: (
                         <InputAdornment position="end">
-                            <IconButton onClick={handleCopy} edge="end">
-                                <ContentCopyIcon />
-                            </IconButton>
+                            <Tooltip title={strings.common.copyToClipboard}>
+                                <IconButton onClick={handleCopy} edge="end">
+                                    <ContentCopyIcon />
+                                </IconButton>
+                            </Tooltip>
+                            <Snackbar
+                                message={strings.common.copiedToClipboard}
+                                anchorOrigin={{ vertical: "top", horizontal: "center" }}
+                                autoHideDuration={2000}
+                                onClose={() => setOpen(false)}
+                                open={open}
+                            />
                         </InputAdornment>
                     ),
                 },
@@ -88,10 +115,15 @@ export default function RoomSettingsPage() {
 
     return (
         <MainContainer>
-            <Stack direction="column" spacing={4} sx={{ width: "100%" }}>
+            <Stack spacing={8}>
+                <Typography component="h1" variant="h4" align="center">
+                    {strings.createGame.title}
+                </Typography>
                 <SeatCountSelect />
-                <GameCodeOutput />
-                <StartButton />
+                <Stack spacing={4}>
+                    <GameCodeOutput />
+                    <StartButton />
+                </Stack>
             </Stack>
         </MainContainer>
     )

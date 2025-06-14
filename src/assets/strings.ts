@@ -8,6 +8,11 @@ export default {
         join: "Join",
         create: "Create",
         start: "Start",
+        copyToClipboard: "Copy to clipboard",
+        copiedToClipboard: "Copied to clipboard",
+    },
+    createGame: {
+        title: "Create New Game",
     },
     room: {
         seatCount: "Number of players",
@@ -18,9 +23,8 @@ export default {
     },
     game: {
         round: "Round",
-        prompt: "Prompt",
         displayYourPrompt: "Click to reveal your prompt...",
-        revealRealPrompt: "Reveal real prompt",
+        revealRealPrompt: "Reveal public prompt",
         next: "Next",
     },
 }

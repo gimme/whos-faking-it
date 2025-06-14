@@ -34,11 +34,11 @@ export default function SeatingPage() {
 
     return (
         <MainContainer>
-            <Stack spacing={5} width={"100%"} justifyContent={"center"}>
+            <Stack spacing={5} width={"100%"}>
                 <Typography component="h1" variant="h4" align="center">
                     {strings.room.selectSeat}
                 </Typography>
-                <Stack direction="column" spacing={5}>
+                <Stack spacing={5}>
                     {game.players.map((player) => (
                         <Button
                             key={player.seat}

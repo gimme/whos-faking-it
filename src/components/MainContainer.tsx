@@ -14,7 +14,7 @@ export function MainContainer(props: Props) {
         <Container
             component="main"
             maxWidth="xs"
-            sx={{
+            style={{
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "center",
