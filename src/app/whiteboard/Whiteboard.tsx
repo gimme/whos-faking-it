@@ -1,12 +1,20 @@
-import React, { type KeyboardEvent, useLayoutEffect, useRef, useState } from "react"
+import React, { type KeyboardEvent, type RefObject, useLayoutEffect, useRef, useState } from "react"
 
 type WhiteboardProps = {
     boardColor: string
     markerColor: string
+    style?: React.CSSProperties
+    ref?: RefObject<HTMLCanvasElement | null>
 }
 
 export function Whiteboard(props: WhiteboardProps) {
     const canvasRef = useRef<HTMLCanvasElement>(null)
+    const mergedRef = (node: HTMLCanvasElement) => {
+        if (props.ref) {
+            props.ref.current = node
+        }
+        canvasRef.current = node
+    }
     const [strokes, setStrokes] = useState<Stroke[]>([])
     const [undoCount, setUndoCount] = useState(0)
     const [currentStroke, setCurrentStroke] = useState<Stroke | null>(null)
@@ -133,11 +141,12 @@ export function Whiteboard(props: WhiteboardProps) {
 
     return (
         <canvas
-            ref={canvasRef}
-            style={{ touchAction: "none", display: "block", backgroundColor: props.boardColor }}
+            ref={mergedRef}
+            style={{ touchAction: "none", display: "block", backgroundColor: props.boardColor, ...props.style }}
             onMouseDown={startDrawing}
             onMouseMove={draw}
             onMouseUp={stopDrawing}
+            onMouseLeave={stopDrawing}
             onTouchStart={startDrawing}
             onTouchMove={draw}
             onTouchEnd={stopDrawing}

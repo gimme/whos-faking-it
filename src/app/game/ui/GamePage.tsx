@@ -146,7 +146,7 @@ export default function GamePage() {
                 <Fab
                     color="primary"
                     aria-label="open whiteboard"
-                    sx={{ position: "fixed", bottom: 32, right: 32 }}
+                    style={{ position: "fixed", bottom: 32, right: 32 }}
                     onClick={handleToggleWhiteboard}
                 >
                     {showWhiteboard ? <CloseIcon /> : <BrushIcon />}
