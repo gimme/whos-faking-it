@@ -6,10 +6,10 @@ export function useAppNavigate() {
     return {
         back: () => navigate(-1),
         home: () => navigate("/"),
-        createRoom: () => navigate("/create"),
-        joinRoom: (gameCode: string) => navigate(`/${gameCode}/seats`),
-        selectSeat: (gameCode: string, seat: number) => navigate(`/${gameCode}/seats/${seat}/rounds/1`),
+        createRoom: () => navigate("/create-game"),
+        joinRoom: (gameCode: string) => navigate(`/games/${gameCode}/seats`),
+        selectSeat: (gameCode: string, seat: number) => navigate(`/games/${gameCode}/seats/${seat}/rounds/1`),
         playRound: (gameCode: string, seat: number, roundNumber: number) =>
-            navigate(`/${gameCode}/seats/${seat}/rounds/${roundNumber}`),
+            navigate(`/games/${gameCode}/seats/${seat}/rounds/${roundNumber}`),
     }
 }
