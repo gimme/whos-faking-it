@@ -74,7 +74,7 @@ export function decodeEntropyFromGameCode(code: GameCode): number {
 }
 
 /**
- * Returns the amount of days since the game was created if today or yesterday (0 or 1).
+ * Returns the amount of days since the game was created, if today (0) or yesterday (1).
  */
 export function getDateOffsetFromGameCode(code: GameCode): number {
     const decodedBits = decodeStringToNumber(code)
