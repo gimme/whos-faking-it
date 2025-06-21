@@ -19,8 +19,8 @@ export default function App() {
                     <Route path="/">
                         <Route index element={<LobbyPage />} />
                         <Route path="/create" element={<RoomSettingsPage />} />
-                        <Route path="/:gameCode" element={<SeatingPage />} />
-                        <Route path="/:gameCode/:seat/:roundNumber" element={<GamePage />} />
+                        <Route path="/:gameCode/seats" element={<SeatingPage />} />
+                        <Route path="/:gameCode/seats/:seat/rounds/:roundNumber" element={<GamePage />} />
                     </Route>
                 </Routes>
             </BrowserRouter>
