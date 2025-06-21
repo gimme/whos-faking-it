@@ -1,5 +1,5 @@
 import { useMemo } from "react"
-import { useNavigate, useParams } from "react-router"
+import { useParams } from "react-router"
 
 import WarningAmberOutlinedIcon from "@mui/icons-material/WarningAmberOutlined"
 import { Button, Stack, Typography } from "@mui/material"
@@ -9,9 +9,10 @@ import type { Game } from "@/app/game/domain/game"
 import type { Player } from "@/app/game/domain/player"
 import strings from "@/assets/strings"
 import { MainContainer } from "@/components/MainContainer"
+import { useAppNavigate } from "@/useAppNavigate"
 
 export default function SeatingPage() {
-    const navigate = useNavigate()
+    const appNavigate = useAppNavigate()
     const { gameCode } = useParams()
     const gameService = useGameService()
 
@@ -19,7 +20,7 @@ export default function SeatingPage() {
     const game: Game | undefined = useMemo(() => gameService.findByCode(gameCode), [gameService, gameCode])
 
     const handleSelectSeat = (player: Player) => {
-        navigate(`/${gameCode}/${player.seat}/1`)
+        appNavigate.selectSeat(gameCode, player.seat)
     }
 
     if (!game) {

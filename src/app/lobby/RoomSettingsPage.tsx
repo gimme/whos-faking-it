@@ -1,5 +1,4 @@
 import { useMemo, useState } from "react"
-import { useNavigate } from "react-router"
 
 import ContentCopyIcon from "@mui/icons-material/ContentCopy"
 import {
@@ -21,9 +20,10 @@ import { type GameSettings, type IncludedModules, createGameSettings } from "@/a
 import { playableModules } from "@/assets/prompts/modules"
 import strings from "@/assets/strings"
 import { MainContainer } from "@/components/MainContainer"
+import { useAppNavigate } from "@/useAppNavigate"
 
 export default function RoomSettingsPage() {
-    const navigate = useNavigate()
+    const appNavigate = useAppNavigate()
     const gameService = useGameService()
     const modules = playableModules
 
@@ -40,11 +40,11 @@ export default function RoomSettingsPage() {
     const gameCode = game.code
 
     const handleStart = () => {
-        navigate(`/${gameCode}`)
+        appNavigate.joinRoom(gameCode)
     }
 
     const handleCopy = () => {
-        navigator.clipboard.writeText(gameCode).then(() => {
+        window.navigator.clipboard.writeText(gameCode).then(() => {
             // TODO: show a notification or feedback to the user
             console.log("Game code copied to clipboard")
             setOpen(true)

@@ -1,13 +1,13 @@
 import React, { useState } from "react"
-import { useNavigate } from "react-router"
 
 import { Button, Stack, TextField, Typography } from "@mui/material"
 
 import strings from "@/assets/strings"
 import { MainContainer } from "@/components/MainContainer"
+import { useAppNavigate } from "@/useAppNavigate"
 
 export default function LobbyPage() {
-    const navigate = useNavigate()
+    const appNavigate = useAppNavigate()
     const [joinCode, setJoinCode] = useState<string>("")
 
     const onChangeCode = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -15,11 +15,11 @@ export default function LobbyPage() {
     }
 
     const handleJoin = () => {
-        navigate(`/${joinCode}`)
+        appNavigate.joinRoom(joinCode)
     }
 
     const handleCreate = () => {
-        navigate("/create")
+        appNavigate.createRoom()
     }
 
     return (

@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react"
-import { useNavigate, useParams, useSearchParams } from "react-router"
+import { useParams, useSearchParams } from "react-router"
 
 import BrushIcon from "@mui/icons-material/Brush"
 import CloseIcon from "@mui/icons-material/Close"
@@ -11,9 +11,10 @@ import { viewCardAsPlayer } from "@/app/game/domain/round"
 import { WhiteboardPage } from "@/app/whiteboard/WhiteboardPage"
 import strings from "@/assets/strings"
 import { MainContainer } from "@/components/MainContainer"
+import { useAppNavigate } from "@/useAppNavigate"
 
 export default function GamePage() {
-    const navigate = useNavigate()
+    const appNavigate = useAppNavigate()
     const gameService = useGameService()
     const params = useParams()
     const [searchParams, setSearchParams] = useSearchParams()
@@ -77,15 +78,15 @@ export default function GamePage() {
         const nextRound = getNextRound(game, round)
         if (nextRound === undefined) {
             // Reset to first round if no next round exists
-            navigate(`/${gameCode}/${seat}/1`)
+            appNavigate.selectSeat(gameCode, seat)
             return
         }
-        navigate(`/${gameCode}/${seat}/${nextRound.roundNumber}`)
+        appNavigate.playRound(gameCode, seat, nextRound.roundNumber)
     }
 
     const handleToggleWhiteboard = () => {
         if (showWhiteboard) {
-            navigate(-1)
+            appNavigate.back()
         } else {
             setSearchParams((searchParams) => {
                 searchParams.set("whiteboard", "")
