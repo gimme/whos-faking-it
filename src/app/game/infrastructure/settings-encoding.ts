@@ -79,9 +79,11 @@ export function decodeEntropyFromGameCode(code: GameCode): number {
 export function getDateOffsetFromGameCode(code: GameCode): number {
     const decodedBits = decodeStringToNumber(code)
     const gameDateOffset = decodedBits & bitmask(DATE_OFFSET_BITS)
-    const todayDateOffset = (Date.now() / (1000 * 60 * 60 * 24)) % Math.pow(2, DATE_OFFSET_BITS)
+    const todayDateOffset = Math.floor(Date.now() / (1000 * 60 * 60 * 24)) % Math.pow(2, DATE_OFFSET_BITS)
     const diff = todayDateOffset - gameDateOffset
-    return (diff + Math.pow(2, DATE_OFFSET_BITS)) % Math.pow(2, DATE_OFFSET_BITS)
+
+    if (diff < 0) return diff + Math.pow(2, DATE_OFFSET_BITS) // Adjust for negative difference
+    return diff
 }
 
 /**

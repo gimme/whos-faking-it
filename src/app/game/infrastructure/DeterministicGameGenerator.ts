@@ -31,7 +31,7 @@ export function DeterministicGameGenerator(): GameService {
 
     function generateRounds(settings: GameSettings, code: GameCode): ReadonlyArray<Round> {
         const dateOffset = getDateOffsetFromGameCode(code)
-        const epochDays = Date.now() / (1000 * 60 * 60 * 24) - dateOffset
+        const epochDays = Math.floor(Date.now() / (1000 * 60 * 60 * 24)) - dateOffset
         const seededRng = seedrandom(code + epochDays)
         const rng = () => seededRng()
 
