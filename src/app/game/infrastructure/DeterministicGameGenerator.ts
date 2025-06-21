@@ -73,8 +73,8 @@ export function DeterministicGameGenerator(): GameService {
             const newCode = encodeGameSettings(settings)
             return generateGameDeterministicallyFromCode(newCode)
         },
-        changeSettings(code: GameCode, settings: GameSettings): Game {
-            const entropy = decodeEntropyFromGameCode(code)
+        changeSettings(game: Game, settings: GameSettings): Game {
+            const entropy = decodeEntropyFromGameCode(game.code)
             const newCode = encodeGameSettings(settings, entropy)
             return generateGameDeterministicallyFromCode(newCode)
         },

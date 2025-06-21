@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 
 import ContentCopyIcon from "@mui/icons-material/ContentCopy"
 import {
@@ -36,8 +36,12 @@ export default function RoomSettingsPage() {
         () => createGameSettings(seatCount, includedModules),
         [seatCount, includedModules],
     )
-    const game: Game = useMemo(() => gameService.createNewGame(settings), [gameService, settings])
+    const [game, setGame] = useState<Game>(gameService.createNewGame(settings))
     const gameCode = game.code
+
+    useEffect(() => {
+        setGame((prevGame) => gameService.changeSettings(prevGame, settings))
+    }, [gameService, settings])
 
     const handleStart = () => {
         appNavigate.joinRoom(gameCode)
