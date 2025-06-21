@@ -1,11 +1,18 @@
-import { Box } from "@mui/material"
+import { Box, useTheme } from "@mui/material"
 
 import { Whiteboard } from "@/app/whiteboard/Whiteboard"
 
-export function WhiteboardPage() {
+type WhiteboardPageProps = {
+    hidden?: boolean
+}
+
+export function WhiteboardPage(props: WhiteboardPageProps) {
+    const theme = useTheme()
+
     return (
         <Box
             style={{
+                display: props.hidden ? "none" : "block",
                 position: "absolute",
                 top: 0,
                 bottom: 0,
@@ -13,7 +20,7 @@ export function WhiteboardPage() {
                 right: 0,
             }}
         >
-            <Whiteboard />
+            <Whiteboard boardColor={theme.palette.whiteboard} markerColor={theme.palette.text.primary} />
         </Box>
     )
 }
