@@ -19,7 +19,7 @@ export default {
         selectSeat: "Select your seat",
         uniqueSeat: "Don't pick the same as anyone else.",
         gameNotFound: "Game not found",
-        roundNotFound: "Out of content",
+        roundNotFound: "Out of rounds",
     },
     game: {
         round: "Round",

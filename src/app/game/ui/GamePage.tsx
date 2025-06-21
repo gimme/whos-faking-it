@@ -77,8 +77,8 @@ export default function GamePage() {
 
         const nextRound = getNextRound(game, round)
         if (nextRound === undefined) {
-            // Reset to first round if no next round exists
-            appNavigate.selectSeat(gameCode, seat)
+            // Intentionally navigate out of bounds
+            appNavigate.playRound(gameCode, seat, round.roundNumber + 1)
             return
         }
         appNavigate.playRound(gameCode, seat, nextRound.roundNumber)
