@@ -6,6 +6,7 @@ import { decodeStringToNumber, encodeNumberToString } from "@/util/number-encodi
 
 const MIN_SEAT_COUNT = 3
 
+const CHECKSUM_BITS = 3 // 3 bits for checksum, giving a false positive rate of 1 in 8
 const DATE_OFFSET_BITS = 1 // 1 bit for date offset (0 or 1), to keep the game alive for at least 1 day
 const ENTROPY_BITS = 6 // 6 bits for entropy, allowing for 64 different values
 const SEAT_COUNT_BITS = 3 // 3 bits can represent 8 different seat counts (e.g., 3 to 10)
@@ -41,6 +42,7 @@ export function encodeGameSettings(settings: GameSettings, entropy?: number): Ga
     combined = (combined << SEAT_COUNT_BITS) + seatBits
     combined = (combined << ENTROPY_BITS) + entropy
     combined = (combined << DATE_OFFSET_BITS) + dateOffset
+    combined = (combined << CHECKSUM_BITS) + checksum(combined)
 
     return encodeNumberToString(combined)
 }
@@ -50,8 +52,12 @@ export function encodeGameSettings(settings: GameSettings, entropy?: number): Ga
  */
 export function decodeGameSettings(code: GameCode): GameSettings {
     let decodedBits = decodeStringToNumber(code)
-    decodedBits >>>= DATE_OFFSET_BITS
-    decodedBits >>>= ENTROPY_BITS
+
+    const decodedChecksum = decodedBits & bitmask(CHECKSUM_BITS)
+    decodedBits >>>= CHECKSUM_BITS
+    if (decodedChecksum !== checksum(decodedBits)) throw new Error("Invalid checksum")
+
+    decodedBits >>>= DATE_OFFSET_BITS + ENTROPY_BITS
 
     const decodedSeats = decodedBits & bitmask(SEAT_COUNT_BITS)
     decodedBits >>>= SEAT_COUNT_BITS
@@ -70,7 +76,7 @@ export function decodeGameSettings(code: GameCode): GameSettings {
  */
 export function decodeEntropyFromGameCode(code: GameCode): number {
     const decodedBits = decodeStringToNumber(code)
-    return (decodedBits >>> DATE_OFFSET_BITS) & bitmask(ENTROPY_BITS)
+    return (decodedBits >>> (CHECKSUM_BITS + DATE_OFFSET_BITS)) & bitmask(ENTROPY_BITS)
 }
 
 /**
@@ -78,12 +84,16 @@ export function decodeEntropyFromGameCode(code: GameCode): number {
  */
 export function getDateOffsetFromGameCode(code: GameCode): number {
     const decodedBits = decodeStringToNumber(code)
-    const gameDateOffset = decodedBits & bitmask(DATE_OFFSET_BITS)
+    const gameDateOffset = (decodedBits >>> CHECKSUM_BITS) & bitmask(DATE_OFFSET_BITS)
     const todayDateOffset = Math.floor(Date.now() / (1000 * 60 * 60 * 24)) % Math.pow(2, DATE_OFFSET_BITS)
     const diff = todayDateOffset - gameDateOffset
 
     if (diff < 0) return diff + Math.pow(2, DATE_OFFSET_BITS) // Adjust for negative difference
     return diff
+}
+
+function checksum(input: number): number {
+    return input % Math.pow(2, CHECKSUM_BITS)
 }
 
 /**
