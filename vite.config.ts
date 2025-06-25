@@ -3,11 +3,11 @@ import { defineConfig } from "vite"
 
 // https://vite.dev/config/
 export default defineConfig({
+    base: "/whos-faking-it",
     plugins: [react()],
     resolve: {
         alias: {
             "@": "/src",
         },
     },
-    base: "/whos-faking-it",
 })
