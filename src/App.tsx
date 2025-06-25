@@ -10,10 +10,10 @@ import { Redirect } from "@/components/Redirect"
 import { getTheme } from "@/theme"
 
 export default function App() {
-    const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)")
+    const prefersLightMode = useMediaQuery("(prefers-color-scheme: light)")
 
     return (
-        <ThemeProvider theme={getTheme(prefersDarkMode)}>
+        <ThemeProvider theme={getTheme(!prefersLightMode)}>
             <CssBaseline />
             <BrowserRouter basename="/whos-faking-it">
                 <Routes>
