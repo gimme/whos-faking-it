@@ -1,8 +1,7 @@
 import { blue, purple } from "@mui/material/colors"
 import { createTheme } from "@mui/material/styles"
 
-export const getTheme = (darkMode?: boolean) =>
-    darkMode ? darkTheme : lightTheme
+export const getTheme = (darkMode?: boolean) => (darkMode ? darkTheme : lightTheme)
 
 const darkTheme = createTheme({
     palette: {
