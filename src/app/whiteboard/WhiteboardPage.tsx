@@ -29,7 +29,6 @@ export function WhiteboardPage(props: WhiteboardPageProps) {
             if (!isFullscreen) {
                 appNavigate.back()
             }
-            console.log("Fullscreen change detected:", isFullscreen, props.hidden)
         }
         document.addEventListener("fullscreenchange", handler)
         return () => document.removeEventListener("fullscreenchange", handler)

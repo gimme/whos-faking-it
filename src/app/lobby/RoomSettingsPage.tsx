@@ -27,7 +27,7 @@ export default function RoomSettingsPage() {
     const gameService = useGameService()
     const modules = playableModules
 
-    const [open, setOpen] = useState(false)
+    const [copiedSnackbarOpen, setCopiedSnackbarOpen] = useState(false)
     const [seatCount, setSeatCount] = useState<SeatCount>(4)
     // TODO: Configurable module selection
     const [includedModules] = useState<IncludedModules>(modules.map((_, index) => index))
@@ -49,9 +49,7 @@ export default function RoomSettingsPage() {
 
     const handleCopy = () => {
         window.navigator.clipboard.writeText(gameCode).then(() => {
-            // TODO: show a notification or feedback to the user
-            console.log("Game code copied to clipboard")
-            setOpen(true)
+            setCopiedSnackbarOpen(true)
         })
     }
 
@@ -101,8 +99,8 @@ export default function RoomSettingsPage() {
                                 message={strings.common.copiedToClipboard}
                                 anchorOrigin={{ vertical: "top", horizontal: "center" }}
                                 autoHideDuration={2000}
-                                onClose={() => setOpen(false)}
-                                open={open}
+                                onClose={() => setCopiedSnackbarOpen(false)}
+                                open={copiedSnackbarOpen}
                             />
                         </InputAdornment>
                     ),
