@@ -17,21 +17,19 @@ export default function App() {
             <CssBaseline />
             <BrowserRouter basename="/whos-faking-it">
                 <Routes>
-                    <Route path="/">
-                        <Route index element={<LobbyPage />} />
-                        <Route path="/create-game" element={<RoomSettingsPage />} />
-                        <Route path="/:gameCode" element={<Redirect to={"/games/:gameCode"} />} />
-                        <Route path="/games/:gameCode" element={<Redirect to={"/games/:gameCode/seats"} />} />
-                        <Route path="/games/:gameCode/seats" element={<SeatingPage />} />
-                        <Route
-                            path="/games/:gameCode/seats/:seat"
-                            element={<Redirect to={"/games/:gameCode/seats/:seat/rounds"} />}
-                        />
-                        <Route
-                            path="/games/:gameCode/seats/:seat/rounds"
-                            element={<Redirect to={"/games/:gameCode/seats/:seat/rounds/1"} />}
-                        />
-                        <Route path="/games/:gameCode/seats/:seat/rounds/:roundNumber" element={<GamePage />} />
+                    <Route index element={<LobbyPage />} />
+                    <Route path="create-game" element={<RoomSettingsPage />} />
+                    <Route path=":gameCode" element={<Redirect to="/games/:gameCode" />} />
+                    <Route path="games/:gameCode">
+                        <Route index element={<Redirect to="seats" />} />
+                        <Route path="seats">
+                            <Route index element={<SeatingPage />} />
+                            <Route path=":seat">
+                                <Route index element={<Redirect to="rounds" />} />
+                                <Route path="rounds" element={<Redirect to="1" />} />
+                                <Route path="rounds/:roundNumber" element={<GamePage />} />
+                            </Route>
+                        </Route>
                     </Route>
                 </Routes>
             </BrowserRouter>

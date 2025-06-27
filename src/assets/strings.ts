@@ -18,13 +18,13 @@ export default {
         seatCount: "Number of players",
         selectSeat: "Select your seat",
         uniqueSeat: "Don't pick the same as anyone else.",
-        gameNotFound: "Game not found",
-        roundNotFound: "Out of rounds",
     },
     game: {
         round: "Round",
         displayYourPrompt: "Click to reveal your prompt...",
         revealRealPrompt: "Reveal public prompt",
         next: "Next",
+        roundNotFound: "Out of rounds",
+        gameNotFound: "Game not found",
     },
 }

@@ -1,36 +1,26 @@
-import { useMemo } from "react"
 import { useParams } from "react-router"
 
 import WarningAmberOutlinedIcon from "@mui/icons-material/WarningAmberOutlined"
 import { Button, Stack, Typography } from "@mui/material"
 
-import { useGameService } from "@/app/game"
-import type { Game } from "@/app/game/domain/game"
+import { useGame } from "@/app/game"
 import type { Player } from "@/app/game/domain/player"
+import { GameErrorPage } from "@/app/game/ui/GameErrorPage"
 import strings from "@/assets/strings"
 import { MainContainer } from "@/components/MainContainer"
 import { useAppNavigate } from "@/useAppNavigate"
 
 export default function SeatingPage() {
     const appNavigate = useAppNavigate()
-    const { gameCode } = useParams()
-    const gameService = useGameService()
 
+    const { gameCode } = useParams()
     if (!gameCode) throw new Error("Game code is required")
-    const game: Game | undefined = useMemo(() => gameService.findByCode(gameCode), [gameService, gameCode])
+
+    const game = useGame(gameCode)
+    if (!game) return <GameErrorPage message={strings.game.gameNotFound} />
 
     const handleSelectSeat = (player: Player) => {
         appNavigate.selectSeat(gameCode, player.seat)
-    }
-
-    if (!game) {
-        return (
-            <MainContainer>
-                <Typography component="h1" variant="h4" align="center">
-                    {strings.room.gameNotFound}
-                </Typography>
-            </MainContainer>
-        )
     }
 
     return (

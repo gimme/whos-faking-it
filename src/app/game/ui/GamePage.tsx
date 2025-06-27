@@ -1,13 +1,14 @@
-import { useMemo, useState } from "react"
+import { useState } from "react"
 import { useParams, useSearchParams } from "react-router"
 
 import BrushIcon from "@mui/icons-material/Brush"
 import CloseIcon from "@mui/icons-material/Close"
 import { Box, Button, Fab, Stack, Typography } from "@mui/material"
 
-import { useGameService } from "@/app/game"
+import { useGame } from "@/app/game"
 import { getNextRound, getRound } from "@/app/game/domain/game"
 import { viewCardAsPlayer } from "@/app/game/domain/round"
+import { GameErrorPage } from "@/app/game/ui/GameErrorPage"
 import { WhiteboardPage } from "@/app/whiteboard/WhiteboardPage"
 import strings from "@/assets/strings"
 import { MainContainer } from "@/components/MainContainer"
@@ -15,7 +16,6 @@ import { useAppNavigate } from "@/useAppNavigate"
 
 export default function GamePage() {
     const appNavigate = useAppNavigate()
-    const gameService = useGameService()
     const params = useParams()
     const [searchParams, setSearchParams] = useSearchParams()
 
@@ -26,35 +26,17 @@ export default function GamePage() {
     const seat = Number(params.seat)
     const roundNumber = Number(params.roundNumber)
 
-    const showWhiteboard = searchParams.has("whiteboard")
-
     if (!gameCode) throw new Error("Game code is required")
     if (!seat) throw new Error("Seat is required")
     if (!roundNumber) throw new Error("Round number is required")
 
-    const game = useMemo(() => gameService.findByCode(gameCode), [gameCode, gameService])
+    const showWhiteboard = searchParams.has("whiteboard")
 
-    if (!game) {
-        return (
-            <MainContainer>
-                <Typography component="h1" variant="h4" align="center">
-                    {strings.room.gameNotFound}
-                </Typography>
-            </MainContainer>
-        )
-    }
+    const game = useGame(gameCode)
+    if (!game) return <GameErrorPage message={strings.game.gameNotFound} />
 
     const round = getRound(game, roundNumber)
-
-    if (!round) {
-        return (
-            <MainContainer>
-                <Typography component="h1" variant="h4" align="center">
-                    {strings.room.roundNotFound}
-                </Typography>
-            </MainContainer>
-        )
-    }
+    if (!round) return <GameErrorPage message={strings.game.roundNotFound} />
 
     const player = game.players.find((p) => p.seat === seat)!
     const roleCardView = viewCardAsPlayer(round, player)
