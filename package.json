@@ -1,7 +1,8 @@
 {
     "name": "whos-faking-it",
-    "private": true,
     "version": "0.1.0",
+    "homepage": "https://gimme.github.io/whos-faking-it",
+    "private": true,
     "type": "module",
     "scripts": {
         "dev": "vite",
