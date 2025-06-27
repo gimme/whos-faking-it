@@ -26,7 +26,7 @@ export default function LobbyPage() {
         <>
             <MainContainer>
                 <Stack spacing={2} width={"100%"}>
-                    <Typography component="h1" variant="h4" align="center">
+                    <Typography component="h1" variant="h4" align="center" py={2}>
                         {strings.meta.name}
                     </Typography>
                     <TextField

@@ -1,6 +1,6 @@
 export default {
     meta: {
-        name: "Who's Faking It?",
+        name: "Who's Faking It",
         description: "A game of discussion and discovery. Uncover the truth or surprise your friends!",
     },
     common: {
