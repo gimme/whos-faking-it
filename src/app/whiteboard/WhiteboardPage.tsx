@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react"
+import { useRef } from "react"
 
 import ClearIcon from "@mui/icons-material/DeleteForever"
 import FullscreenIcon from "@mui/icons-material/Fullscreen"
@@ -6,6 +6,7 @@ import FullscreenExitIcon from "@mui/icons-material/FullscreenExit"
 import { Box, Fab, useTheme } from "@mui/material"
 
 import { Whiteboard, type WhiteboardElement } from "@/app/whiteboard/Whiteboard"
+import { useFullscreen } from "@/util/useFullscreen"
 
 type WhiteboardPageProps = {
     hidden?: boolean
@@ -15,26 +16,7 @@ export function WhiteboardPage(props: WhiteboardPageProps) {
     const theme = useTheme()
     const ref = useRef<HTMLDivElement>(null)
     const whiteboardRef = useRef<WhiteboardElement>(null)
-    const [fullscreen, setFullscreen] = useState(false)
-
-    useEffect(() => {
-        const trackFullscreen = () => {
-            const isFullscreen = !!document.fullscreenElement
-            setFullscreen(isFullscreen)
-        }
-        document.addEventListener("fullscreenchange", trackFullscreen)
-        return () => document.removeEventListener("fullscreenchange", trackFullscreen)
-    }, [])
-
-    const goFullscreen = () => {
-        ref.current?.requestFullscreen?.()
-    }
-
-    const exitFullscreen = () => {
-        if (document.fullscreenElement === ref.current) {
-            document.exitFullscreen()
-        }
-    }
+    const { isFullscreen, requestFullscreen, exitFullscreen } = useFullscreen()
 
     const handleClear = () => {
         whiteboardRef.current?.clearAll?.()
@@ -58,9 +40,9 @@ export function WhiteboardPage(props: WhiteboardPageProps) {
                 color="primary"
                 aria-label="toggle fullscreen"
                 style={{ position: "fixed", top: 32, right: 32 }}
-                onClick={fullscreen ? exitFullscreen : goFullscreen}
+                onClick={isFullscreen ? exitFullscreen : () => requestFullscreen(ref.current)}
             >
-                {fullscreen ? <FullscreenExitIcon /> : <FullscreenIcon />}
+                {isFullscreen ? <FullscreenExitIcon /> : <FullscreenIcon />}
             </Fab>
             <Fab
                 color="primary"
