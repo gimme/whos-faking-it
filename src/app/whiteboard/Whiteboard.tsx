@@ -1,20 +1,40 @@
-import React, { type KeyboardEvent, type RefObject, useLayoutEffect, useRef, useState } from "react"
+import React, {
+    type KeyboardEvent,
+    type RefObject,
+    useImperativeHandle,
+    useLayoutEffect,
+    useRef,
+    useState,
+} from "react"
 
-type WhiteboardProps = {
+export type WhiteboardProps = {
     boardColor: string
     markerColor: string
     style?: React.CSSProperties
-    ref?: RefObject<HTMLCanvasElement | null>
+    ref?: RefObject<WhiteboardElement | null>
+}
+
+export type WhiteboardElement = {
+    clearAll: () => void
+    undo: () => void
+    redo: () => void
 }
 
 export function Whiteboard(props: WhiteboardProps) {
     const canvasRef = useRef<HTMLCanvasElement>(null)
-    const mergedRef = (node: HTMLCanvasElement) => {
-        if (props.ref) {
-            props.ref.current = node
-        }
-        canvasRef.current = node
-    }
+    useImperativeHandle(props.ref, () => ({
+        clearAll() {
+            clearAll()
+        },
+        undo() {
+            undo()
+        },
+        redo() {
+            redo()
+        },
+        canvasRef: canvasRef,
+    }))
+
     const [strokes, setStrokes] = useState<Stroke[]>([])
     const [undoCount, setUndoCount] = useState(0)
     const [currentStroke, setCurrentStroke] = useState<Stroke | null>(null)
@@ -94,6 +114,12 @@ export function Whiteboard(props: WhiteboardProps) {
         })
     }
 
+    const clearAll = () => {
+        setStrokes([])
+        setUndoCount(0)
+        setCurrentStroke(null)
+    }
+
     const handleKeyDown = (e: KeyboardEvent) => {
         if (e.ctrlKey && e.key === "z") {
             e.preventDefault()
@@ -141,7 +167,7 @@ export function Whiteboard(props: WhiteboardProps) {
 
     return (
         <canvas
-            ref={mergedRef}
+            ref={canvasRef}
             style={{ touchAction: "none", display: "block", backgroundColor: props.boardColor, ...props.style }}
             onMouseDown={startDrawing}
             onMouseMove={draw}
