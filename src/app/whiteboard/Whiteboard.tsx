@@ -134,6 +134,8 @@ export function Whiteboard(props: WhiteboardProps) {
     }
 
     const startDrawing = (e: React.MouseEvent | React.TouchEvent) => {
+        if ("button" in e && e.button !== 0) return // Only left mouse button
+
         const { offsetX, offsetY } = getOffset(e)
         setCurrentStroke({
             startingPoint: { x: offsetX, y: offsetY },
