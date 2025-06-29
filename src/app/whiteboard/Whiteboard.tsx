@@ -1,7 +1,7 @@
 import React, { type KeyboardEvent, type RefObject, useImperativeHandle, useRef, useState } from "react"
 
+import { useElementDimensions } from "@/util/useElementDimensions"
 import { useIsPortrait } from "@/util/useIsPortrait"
-import { useWindowDimensions } from "@/util/useWindowDimensions"
 
 export type WhiteboardProps = {
     boardColor: string
@@ -36,7 +36,7 @@ export function Whiteboard(props: WhiteboardProps) {
     const [strokes, setStrokes] = useState<Stroke[]>([])
     const [undoCount, setUndoCount] = useState(0)
     const [currentStroke, setCurrentStroke] = useState<Stroke | null>(null)
-    const dimensions = useWindowDimensions()
+    const dimensions = useElementDimensions(canvasRef)
 
     const renderCanvas = (canvas: HTMLCanvasElement) => {
         canvas.width = dimensions.width
@@ -50,19 +50,29 @@ export function Whiteboard(props: WhiteboardProps) {
             ctx.lineWidth = 8
 
             ctx.beginPath()
-            const startingPoint = translatePointToPortrait(stroke.startingPoint)
+            const startingPoint = stroke.startingPoint
             ctx.moveTo(startingPoint.x, startingPoint.y)
             ctx.lineTo(startingPoint.x, startingPoint.y)
 
-            stroke.points.map(translatePointToPortrait).forEach((point) => {
+            stroke.points.forEach((point) => {
                 ctx.lineTo(point.x, point.y)
             })
             ctx.stroke()
         }
 
+        ctx.clearRect(0, 0, canvas.width, canvas.height)
+        ctx.save()
+
+        if (isPortrait) {
+            ctx.rotate(Math.PI / 2)
+            ctx.translate(0, -canvas.width)
+        }
+
         const strokesWithUndo = strokes.slice(0, strokes.length - undoCount)
         const strokesToRender = [...strokesWithUndo, ...(currentStroke ? [currentStroke] : [])]
         strokesToRender.forEach(drawStroke)
+
+        ctx.restore()
     }
 
     const addStroke = (stroke: Stroke) => {
@@ -152,14 +162,7 @@ export function Whiteboard(props: WhiteboardProps) {
     const translatePointFromPortrait = (point: Point): Point => {
         return {
             x: isPortrait ? point.y : point.x,
-            y: isPortrait ? dimensions.width - point.x : point.y,
-        }
-    }
-
-    const translatePointToPortrait = (point: Point): Point => {
-        return {
-            x: isPortrait ? dimensions.width - point.y : point.x,
-            y: isPortrait ? point.x : point.y,
+            y: isPortrait ? canvasRef.current!.width - point.x : point.y,
         }
     }
 
@@ -170,7 +173,12 @@ export function Whiteboard(props: WhiteboardProps) {
     return (
         <canvas
             ref={canvasRef}
-            style={{ touchAction: "none", display: "block", backgroundColor: props.boardColor, ...props.style }}
+            style={{
+                touchAction: "none",
+                display: "block",
+                backgroundColor: props.boardColor,
+                ...props.style,
+            }}
             onMouseDown={startDrawing}
             onMouseMove={draw}
             onMouseUp={stopDrawing}

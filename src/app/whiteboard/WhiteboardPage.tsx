@@ -23,15 +23,22 @@ export function WhiteboardPage(props: WhiteboardPageProps) {
     }
 
     return (
-        <Box ref={ref} style={{ display: props.hidden ? "none" : undefined }}>
+        <Box
+            ref={ref}
+            style={{
+                display: props.hidden ? "none" : undefined,
+                position: "absolute",
+                top: 0,
+                bottom: 0,
+                left: 0,
+                right: 0,
+            }}
+        >
             <Whiteboard
                 ref={whiteboardRef}
                 style={{
-                    position: "absolute",
-                    top: 0,
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
+                    width: "100%",
+                    height: "100%",
                 }}
                 boardColor={theme.palette.whiteboard}
                 markerColor={theme.palette.text.primary}
