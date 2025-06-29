@@ -7,6 +7,8 @@ import React, {
     useState,
 } from "react"
 
+import { useIsPortrait } from "@/util/useIsPortrait"
+
 export type WhiteboardProps = {
     boardColor: string
     markerColor: string
@@ -35,6 +37,8 @@ export function Whiteboard(props: WhiteboardProps) {
         canvasRef: canvasRef,
     }))
 
+    const isPortrait = useIsPortrait()
+
     const [strokes, setStrokes] = useState<Stroke[]>([])
     const [undoCount, setUndoCount] = useState(0)
     const [currentStroke, setCurrentStroke] = useState<Stroke | null>(null)
@@ -49,25 +53,25 @@ export function Whiteboard(props: WhiteboardProps) {
 
         const ctx: CanvasRenderingContext2D = canvas.getContext("2d")!
 
-        const strokesWithUndo = strokes.slice(0, strokes.length - undoCount)
-        const strokesToRender = [...strokesWithUndo, ...(currentStroke ? [currentStroke] : [])]
-        strokesToRender.forEach((stroke) => {
+        const drawStroke = (stroke: Stroke) => {
             ctx.strokeStyle = props.markerColor
             ctx.lineCap = "round"
             ctx.lineWidth = 8
 
             ctx.beginPath()
-            ctx.moveTo(stroke.startingPoint.x, stroke.startingPoint.y)
-            ctx.lineTo(stroke.startingPoint.x, stroke.startingPoint.y)
-            stroke.points.forEach((point) => {
+            const startingPoint = translatePointToPortrait(stroke.startingPoint)
+            ctx.moveTo(startingPoint.x, startingPoint.y)
+            ctx.lineTo(startingPoint.x, startingPoint.y)
+
+            stroke.points.map(translatePointToPortrait).forEach((point) => {
                 ctx.lineTo(point.x, point.y)
             })
             ctx.stroke()
-        })
-    }
+        }
 
-    if (canvasRef.current) {
-        renderCanvas(canvasRef.current)
+        const strokesWithUndo = strokes.slice(0, strokes.length - undoCount)
+        const strokesToRender = [...strokesWithUndo, ...(currentStroke ? [currentStroke] : [])]
+        strokesToRender.forEach(drawStroke)
     }
 
     useLayoutEffect(() => {
@@ -136,35 +140,52 @@ export function Whiteboard(props: WhiteboardProps) {
     const startDrawing = (e: React.MouseEvent | React.TouchEvent) => {
         if ("button" in e && e.button !== 0) return // Only left mouse button
 
-        const { offsetX, offsetY } = getOffset(e)
+        const point = getPoint(e)
+
         setCurrentStroke({
-            startingPoint: { x: offsetX, y: offsetY },
+            startingPoint: point,
             points: [],
         })
     }
 
     const draw = (e: React.MouseEvent | React.TouchEvent) => {
-        const { offsetX, offsetY } = getOffset(e)
+        const point = getPoint(e)
         setCurrentStroke((prevStroke) => {
             if (!prevStroke) return null
             return {
                 ...prevStroke,
-                points: [...prevStroke.points, { x: offsetX, y: offsetY }],
+                points: [...prevStroke.points, point],
             }
         })
     }
 
     const stopDrawing = completeCurrentStroke
 
-    const getOffset = (e: React.MouseEvent | React.TouchEvent) => {
+    const getPoint: (e: React.MouseEvent | React.TouchEvent) => Point = (e: React.MouseEvent | React.TouchEvent) => {
         const canvas = canvasRef.current
         const rect = canvas?.getBoundingClientRect()
-        const x = "touches" in e ? e.touches[0].clientX - (rect?.left ?? 0) : e.nativeEvent.offsetX
-        const y = "touches" in e ? e.touches[0].clientY - (rect?.top ?? 0) : e.nativeEvent.offsetY
+        const canvasX = "touches" in e ? e.touches[0].clientX - (rect?.left ?? 0) : e.nativeEvent.offsetX
+        const canvasY = "touches" in e ? e.touches[0].clientY - (rect?.top ?? 0) : e.nativeEvent.offsetY
+
+        return translatePointFromPortrait({ x: canvasX, y: canvasY })
+    }
+
+    const translatePointFromPortrait = (point: Point): Point => {
         return {
-            offsetX: x,
-            offsetY: y,
+            x: isPortrait ? point.y : point.x,
+            y: isPortrait ? dimensions.width - point.x : point.y,
         }
+    }
+
+    const translatePointToPortrait = (point: Point): Point => {
+        return {
+            x: isPortrait ? dimensions.width - point.y : point.x,
+            y: isPortrait ? point.x : point.y,
+        }
+    }
+
+    if (canvasRef.current) {
+        renderCanvas(canvasRef.current)
     }
 
     return (
