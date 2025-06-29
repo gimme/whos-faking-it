@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react"
+import { useLayoutEffect, useState } from "react"
 
 export function useFullscreen() {
     const [isFullscreen, setIsFullscreen] = useState<boolean>(!!document.fullscreenElement)
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         const trackFullscreen = () => setIsFullscreen(!!document.fullscreenElement)
+        trackFullscreen() // Initial check
         document.addEventListener("fullscreenchange", trackFullscreen)
         return () => document.removeEventListener("fullscreenchange", trackFullscreen)
     }, [])

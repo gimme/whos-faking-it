@@ -1,13 +1,7 @@
-import React, {
-    type KeyboardEvent,
-    type RefObject,
-    useImperativeHandle,
-    useLayoutEffect,
-    useRef,
-    useState,
-} from "react"
+import React, { type KeyboardEvent, type RefObject, useImperativeHandle, useRef, useState } from "react"
 
 import { useIsPortrait } from "@/util/useIsPortrait"
+import { useWindowDimensions } from "@/util/useWindowDimensions"
 
 export type WhiteboardProps = {
     boardColor: string
@@ -42,10 +36,7 @@ export function Whiteboard(props: WhiteboardProps) {
     const [strokes, setStrokes] = useState<Stroke[]>([])
     const [undoCount, setUndoCount] = useState(0)
     const [currentStroke, setCurrentStroke] = useState<Stroke | null>(null)
-    const [dimensions, setDimensions] = useState({
-        width: window.innerWidth,
-        height: window.innerHeight,
-    })
+    const dimensions = useWindowDimensions()
 
     const renderCanvas = (canvas: HTMLCanvasElement) => {
         canvas.width = dimensions.width
@@ -73,18 +64,6 @@ export function Whiteboard(props: WhiteboardProps) {
         const strokesToRender = [...strokesWithUndo, ...(currentStroke ? [currentStroke] : [])]
         strokesToRender.forEach(drawStroke)
     }
-
-    useLayoutEffect(() => {
-        const handleResize = () => {
-            setDimensions({
-                width: window.innerWidth,
-                height: window.innerHeight,
-            })
-        }
-        handleResize() // Set initial dimensions
-        window.addEventListener("resize", handleResize)
-        return () => window.removeEventListener("resize", handleResize)
-    }, [])
 
     const addStroke = (stroke: Stroke) => {
         setStrokes((prevStrokes) => [...prevStrokes, stroke])
