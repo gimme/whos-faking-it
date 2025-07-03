@@ -35,7 +35,11 @@ export function DeterministicGameGenerator(): GameService {
         const seededRng = seedrandom(code + epochDays)
         const rng = () => seededRng()
 
-        const modulesToUse = playableModules.filter((_, index) => settings.includedModules.includes(index))
+        const includedModules = settings.includedModules
+        const modulesToUse =
+            includedModules.length !== 0
+                ? playableModules.filter((_, index) => includedModules.includes(index))
+                : playableModules
         const generatedCards = modulesToUse.flatMap((module) => generateCardsFromModule(module, rng))
         const shuffledDeck = shuffleCards(generatedCards, rng)
 
@@ -62,11 +66,30 @@ export function DeterministicGameGenerator(): GameService {
     }
 
     function randomizeRoles(seatCount: SeatCount, rng: RNG): ReadonlyArray<Role> {
-        const impostorIndex = Math.floor(rng() * (seatCount + 1))
-        const secondImpostorIndex = rng() < 0.2 ? Math.floor(rng() * seatCount) : -1
+        function generateImpostorIndexes(): number[] {
+            const r = Math.floor(rng() * (seatCount + 2)) - 2
+            if (r === -2) {
+                // Two or more impostors
+                const numberOfImpostors = Math.floor(rng() * (seatCount - 1)) + 2
+                const allRoleIndices = Array.from({ length: seatCount }, (_, i) => i)
+                function pickRandomValues(values: number[], count: number): number[] {
+                    if (count <= 0) return []
+                    if (values.length === 0) return []
+
+                    const randomValue = values[Math.floor(rng() * values.length)]
+                    const leftoverIndices = values.filter((v) => v !== randomValue)
+                    return pickRandomValues(leftoverIndices, count - 1).concat(randomValue)
+                }
+                return pickRandomValues(allRoleIndices, numberOfImpostors)
+            }
+            if (r === -1) return [] // No impostors
+            return [Math.floor(rng() * seatCount)] // One impostor
+        }
+
+        const impostorIndices = generateImpostorIndexes()
 
         return Array.from({ length: seatCount }, (_, i) => {
-            return i === impostorIndex || i === secondImpostorIndex ? "impostor" : "truthful"
+            return impostorIndices.includes(i) ? "impostor" : "truthful"
         })
     }
 
