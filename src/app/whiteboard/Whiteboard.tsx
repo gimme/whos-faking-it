@@ -47,7 +47,8 @@ export function Whiteboard(props: WhiteboardProps) {
         const drawStroke = (stroke: Stroke) => {
             ctx.strokeStyle = props.markerColor
             ctx.lineCap = "round"
-            ctx.lineWidth = 8
+            ctx.lineJoin = "round"
+            ctx.lineWidth = 10
 
             ctx.beginPath()
             const startingPoint = stroke.startingPoint
@@ -60,8 +61,8 @@ export function Whiteboard(props: WhiteboardProps) {
             ctx.stroke()
         }
 
-        ctx.clearRect(0, 0, canvas.width, canvas.height)
         ctx.save()
+        ctx.translate(0.5, 0.5)
 
         if (isPortrait) {
             ctx.rotate(Math.PI / 2)
