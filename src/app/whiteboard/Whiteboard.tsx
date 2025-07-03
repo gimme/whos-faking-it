@@ -1,7 +1,6 @@
 import React, { type KeyboardEvent, type RefObject, useImperativeHandle, useRef, useState } from "react"
 
 import { useElementDimensions } from "@/util/useElementDimensions"
-import { useIsPortrait } from "@/util/useIsPortrait"
 
 export type WhiteboardProps = {
     boardColor: string
@@ -30,8 +29,6 @@ export function Whiteboard(props: WhiteboardProps) {
         },
         canvasRef: canvasRef,
     }))
-
-    const isPortrait = useIsPortrait()
 
     const [strokes, setStrokes] = useState<Stroke[]>([])
     const [undoCount, setUndoCount] = useState(0)
@@ -63,11 +60,6 @@ export function Whiteboard(props: WhiteboardProps) {
 
         ctx.save()
         ctx.translate(0.5, 0.5)
-
-        if (isPortrait) {
-            ctx.rotate(Math.PI / 2)
-            ctx.translate(0, -canvas.width)
-        }
 
         const strokesWithUndo = strokes.slice(0, strokes.length - undoCount)
         const strokesToRender = [...strokesWithUndo, ...(currentStroke ? [currentStroke] : [])]
@@ -157,14 +149,7 @@ export function Whiteboard(props: WhiteboardProps) {
         const canvasX = "touches" in e ? e.touches[0].clientX - (rect?.left ?? 0) : e.nativeEvent.offsetX
         const canvasY = "touches" in e ? e.touches[0].clientY - (rect?.top ?? 0) : e.nativeEvent.offsetY
 
-        return translatePointFromPortrait({ x: canvasX, y: canvasY })
-    }
-
-    const translatePointFromPortrait = (point: Point): Point => {
-        return {
-            x: isPortrait ? point.y : point.x,
-            y: isPortrait ? canvasRef.current!.width - point.x : point.y,
-        }
+        return { x: canvasX, y: canvasY }
     }
 
     if (canvasRef.current) {
