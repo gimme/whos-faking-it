@@ -63,8 +63,10 @@ export function DeterministicGameGenerator(): GameService {
 
     function randomizeRoles(seatCount: SeatCount, rng: RNG): ReadonlyArray<Role> {
         const impostorIndex = Math.floor(rng() * (seatCount + 1))
+        const secondImpostorIndex = rng() < 0.2 ? Math.floor(rng() * seatCount) : -1
+
         return Array.from({ length: seatCount }, (_, i) => {
-            return i === impostorIndex ? "impostor" : "truthful"
+            return i === impostorIndex || i === secondImpostorIndex ? "impostor" : "truthful"
         })
     }
 
