@@ -1,10 +1,8 @@
 import type { GameCode } from "@/app/game/domain/game"
-import type { SeatCount } from "@/app/game/domain/player"
+import { MIN_SEAT_COUNT, type SeatCount } from "@/app/game/domain/player"
 import { type GameSettings, createGameSettings } from "@/app/game/domain/settings"
 import { playableModules } from "@/assets/prompts/modules"
 import { decodeStringToNumber, encodeNumberToString } from "@/util/number-encoding"
-
-const MIN_SEAT_COUNT = 3
 
 const CHECKSUM_BITS = 3 // 3 bits for checksum, giving a false positive rate of 1 in 8
 const DATE_OFFSET_BITS = 1 // 1 bit for date offset (0 or 1), to keep the game alive for at least 1 day

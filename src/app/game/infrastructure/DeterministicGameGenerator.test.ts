@@ -58,9 +58,9 @@ describe("DeterministicGameGenerator", () => {
         expect(game1).toEqual(game2)
     })
 
-    // Generate many games and make sure that the impostor count follows the expected distribution
-    test.each([3, 4, 5])("generates games with expected impostor distribution for %i players", (seatCount) => {
-        const settings = createGameSettings(seatCount as SeatCount, [])
+    const testSeatCounts: SeatCount[] = [3, 4, 5]
+    test.each(testSeatCounts)("has expected impostor distribution for %i players", (seatCount: SeatCount) => {
+        const settings = createGameSettings(seatCount, [])
         const games = Array.from({ length: 200 }, () => gameService.createNewGame(settings))
 
         function countRoundsWithImpostorCount(impostorCount: number): number {

@@ -14,3 +14,6 @@ export type SeatNumber = 1 | 2 | SeatCount
  * A number of seats used in a game (aka, number of players).
  */
 export type SeatCount = 3 | 4 | 5 | 6 | 7 | 8
+
+export const MIN_SEAT_COUNT: SeatCount = 3
+export const ALL_SEAT_COUNTS: ReadonlyArray<SeatCount> = [3, 4, 5, 6, 7, 8] as const

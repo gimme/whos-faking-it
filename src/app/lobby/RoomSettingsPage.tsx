@@ -15,7 +15,7 @@ import {
 
 import { useGameService } from "@/app/game"
 import type { Game } from "@/app/game/domain/game"
-import type { SeatCount } from "@/app/game/domain/player"
+import { ALL_SEAT_COUNTS, type SeatCount } from "@/app/game/domain/player"
 import { type GameSettings, type IncludedModules, createGameSettings } from "@/app/game/domain/settings"
 import { playableModules } from "@/assets/prompts/modules"
 import strings from "@/assets/strings"
@@ -59,12 +59,12 @@ export default function RoomSettingsPage() {
                 <strong>{strings.room.seatCount}:</strong>
             </InputLabel>
             <Stack direction="row" spacing={2} useFlexGap flexWrap={"wrap"} justifyContent={"center"}>
-                {[3, 4, 5, 6, 7, 8].map((count) => (
+                {ALL_SEAT_COUNTS.map((count) => (
                     <Button
                         key={count}
                         variant={seatCount === count ? "contained" : "outlined"}
                         value={count.toString()}
-                        onClick={() => setSeatCount(count as SeatCount)}
+                        onClick={() => setSeatCount(count)}
                         aria-label={`seat-count-${count}`}
                         style={{ minWidth: "90px", minHeight: "60px" }}
                     >
