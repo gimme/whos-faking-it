@@ -9,7 +9,7 @@ import {
     otherModule,
 } from "@/assets/prompts/base/other"
 
-const baseModule: Module = {
+export const BASE_MODULE: Module = {
     subModules: [numericalModule, musicModule, movieModule, ageModule, moneyModule, durationModule, otherModule],
 }
-export const playableModules: ReadonlyArray<Module> = [baseModule]
+export const ALL_PLAYABLE_MODULES: ReadonlyArray<Module> = [BASE_MODULE]

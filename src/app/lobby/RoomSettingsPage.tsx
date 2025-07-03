@@ -17,7 +17,7 @@ import { useGameService } from "@/app/game"
 import type { Game } from "@/app/game/domain/game"
 import { ALL_SEAT_COUNTS, type SeatCount } from "@/app/game/domain/player"
 import { type GameSettings, type IncludedModules, createGameSettings } from "@/app/game/domain/settings"
-import { playableModules } from "@/assets/prompts/modules"
+import { ALL_PLAYABLE_MODULES } from "@/assets/prompts/modules"
 import strings from "@/assets/strings"
 import { MainContainer } from "@/components/MainContainer"
 import { useAppNavigate } from "@/useAppNavigate"
@@ -25,7 +25,7 @@ import { useAppNavigate } from "@/useAppNavigate"
 export default function RoomSettingsPage() {
     const appNavigate = useAppNavigate()
     const gameService = useGameService()
-    const modules = playableModules
+    const modules = ALL_PLAYABLE_MODULES
 
     const [copiedSnackbarOpen, setCopiedSnackbarOpen] = useState(false)
     const [seatCount, setSeatCount] = useState<SeatCount>(4)

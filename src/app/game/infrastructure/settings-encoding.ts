@@ -1,14 +1,14 @@
 import type { GameCode } from "@/app/game/domain/game"
 import { MIN_SEAT_COUNT, type SeatCount } from "@/app/game/domain/player"
 import { type GameSettings, createGameSettings } from "@/app/game/domain/settings"
-import { playableModules } from "@/assets/prompts/modules"
+import { ALL_PLAYABLE_MODULES } from "@/assets/prompts/modules"
 import { decodeStringToNumber, encodeNumberToString } from "@/util/number-encoding"
 
 const CHECKSUM_BITS = 3 // 3 bits for checksum, giving a false positive rate of 1 in 8
 const DATE_OFFSET_BITS = 1 // 1 bit for date offset (0 or 1), to keep the game alive for at least 1 day
 const ENTROPY_BITS = 6 // 6 bits for entropy, allowing for 64 different values
 const SEAT_COUNT_BITS = 3 // 3 bits can represent 8 different seat counts (e.g., 3 to 10)
-const MODULE_BITS = playableModules.length // Number of available modules, each represented by a bit
+const MODULE_BITS = ALL_PLAYABLE_MODULES.length // Number of available modules, each represented by a bit
 
 /**
  * Encodes game settings into a code that stores all necessary information to recreate the game.
