@@ -17,6 +17,17 @@ describe("DeterministicGameGenerator", () => {
         expect(game.players.length).toBe(settings.seatCount)
     })
 
+    test("creates games with different modules", () => {
+        const settings1 = createGameSettings(3, [0]) // Base module
+        const game1 = gameService.createNewGame(settings1)
+
+        const settings2 = createGameSettings(3, [0, 1]) // Another module
+        const game2 = gameService.createNewGame(settings2)
+
+        expect(game1.settings).toEqual(settings1)
+        expect(game2.settings).toEqual(settings2)
+    })
+
     test("joins an existing game by code", () => {
         const settings = createGameSettings(3, [])
         const createdGame = gameService.createNewGame(settings)
