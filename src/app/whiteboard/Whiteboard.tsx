@@ -36,10 +36,12 @@ export function Whiteboard(props: WhiteboardProps) {
     const dimensions = useElementDimensions(canvasRef)
 
     const renderCanvas = (canvas: HTMLCanvasElement) => {
-        canvas.width = dimensions.width
-        canvas.height = dimensions.height
+        const scale = window.devicePixelRatio
+        canvas.width = Math.floor(dimensions.width * scale)
+        canvas.height = Math.floor(dimensions.height * scale)
 
         const ctx: CanvasRenderingContext2D = canvas.getContext("2d")!
+        ctx.scale(scale, scale)
 
         const drawStroke = (stroke: Stroke) => {
             ctx.strokeStyle = props.markerColor
@@ -58,14 +60,9 @@ export function Whiteboard(props: WhiteboardProps) {
             ctx.stroke()
         }
 
-        ctx.save()
-        ctx.translate(0.5, 0.5)
-
         const strokesWithUndo = strokes.slice(0, strokes.length - undoCount)
-        const strokesToRender = [...strokesWithUndo, ...(currentStroke ? [currentStroke] : [])]
-        strokesToRender.forEach(drawStroke)
-
-        ctx.restore()
+        const strokesToDraw = [...strokesWithUndo, ...(currentStroke ? [currentStroke] : [])]
+        strokesToDraw.forEach(drawStroke)
     }
 
     const addStroke = (stroke: Stroke) => {
