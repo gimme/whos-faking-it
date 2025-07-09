@@ -1,17 +1,19 @@
+import { type BitArray, bitsToString, parseBits } from "@/util/BitArray"
+
 const CHARSET = "xy23456789abcdefghijkzmnopqrstuv"
 
 /**
- * Encodes a number to a string using distinguishable characters.
+ * Encodes a bit array to a string using distinguishable characters.
  */
-export function encodeNumberToString(number: number): string {
+export function encodeBitsToString(bits: BitArray): string {
     const base = CHARSET.length
-    return number.toString(base).replace(/./g, (c) => CHARSET[parseInt(c, base)])
+    return bitsToString(bits, base).replace(/./g, (c) => CHARSET[parseInt(c, base)])
 }
 
 /**
- * Decodes a string back to a number using the same character set as {@link encodeNumberToString}.
+ * Decodes a string back to bits using the same character set as {@link encodeBitsToString}.
  */
-export function decodeStringToNumber(encoded: string): number {
+export function decodeStringToBits(encoded: string): BitArray {
     const base = CHARSET.length
     const decoded = encoded.toLowerCase().replace(/./g, (c) => {
         let index = CHARSET.indexOf(c)
@@ -20,7 +22,7 @@ export function decodeStringToNumber(encoded: string): number {
         return index.toString(base)
     })
 
-    return parseInt(decoded, base)
+    return parseBits(decoded, base)
 }
 
 const commonTypos: Record<string, string> = {

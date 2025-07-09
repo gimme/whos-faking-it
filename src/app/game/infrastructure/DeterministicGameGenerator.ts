@@ -8,10 +8,10 @@ import type { Role } from "@/app/game/domain/role"
 import type { Round } from "@/app/game/domain/round"
 import { type GameSettings } from "@/app/game/domain/settings"
 import {
-    decodeEntropyFromGameCode,
     decodeGameSettings,
     encodeGameSettings,
     getDateOffsetFromGameCode,
+    getEntropyFromGameCode,
 } from "@/app/game/infrastructure/settings-encoding"
 import { generateCardsFromModule } from "@/app/prompt/module"
 import { ALL_PLAYABLE_MODULES, BASE_MODULE } from "@/assets/prompts/modules"
@@ -99,7 +99,7 @@ export function DeterministicGameGenerator(): GameService {
             return generateGameDeterministicallyFromCode(newCode)
         },
         changeSettings(game: Game, settings: GameSettings): Game {
-            const entropy = decodeEntropyFromGameCode(game.code)
+            const entropy = getEntropyFromGameCode(game.code)
             const newCode = encodeGameSettings(settings, entropy)
             return generateGameDeterministicallyFromCode(newCode)
         },
