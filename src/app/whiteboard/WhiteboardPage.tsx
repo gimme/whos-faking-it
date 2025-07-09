@@ -37,8 +37,8 @@ export function WhiteboardPage(props: WhiteboardPageProps) {
             <Whiteboard
                 ref={whiteboardRef}
                 style={{
-                    width: "100%",
-                    height: "100%",
+                    width: "100dvw",
+                    height: "100dvh",
                 }}
                 boardColor={theme.palette.whiteboard}
                 markerColor={theme.palette.text.primary}
