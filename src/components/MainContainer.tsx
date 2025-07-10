@@ -19,11 +19,8 @@ export function MainContainer(props: Props) {
                 flexDirection: "column",
                 justifyContent: "center",
                 alignItems: "center",
-                position: "absolute",
-                top: 0,
-                bottom: 0,
-                left: 0,
-                right: 0,
+                minHeight: "100vh",
+                padding: "60px 20px",
             }}
         >
             {props.children}
