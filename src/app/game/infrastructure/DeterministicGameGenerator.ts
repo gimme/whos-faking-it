@@ -14,7 +14,7 @@ import {
     getEntropyFromGameCode,
 } from "@/app/game/infrastructure/settings-encoding"
 import { generateCardsFromModule } from "@/app/prompt/module"
-import { ALL_PLAYABLE_MODULES, BASE_MODULE } from "@/assets/prompts/modules"
+import { ALL_PLAYABLE_MODULES, DEFAULT_MODULE } from "@/assets/prompts/modules"
 import type { RNG } from "@/common.types"
 
 /**
@@ -39,7 +39,7 @@ export function DeterministicGameGenerator(): GameService {
         const modulesToUse =
             includedModules.length !== 0
                 ? ALL_PLAYABLE_MODULES.filter((_, index) => includedModules.includes(index))
-                : [BASE_MODULE] // Default to base module if none are selected
+                : [DEFAULT_MODULE] // Default if none are selected
         const generatedCards = modulesToUse.flatMap((module) => generateCardsFromModule(module, rng))
         const shuffledDeck = shuffleCards(generatedCards, rng)
 
