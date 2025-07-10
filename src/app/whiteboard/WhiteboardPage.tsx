@@ -46,7 +46,7 @@ export function WhiteboardPage(props: WhiteboardPageProps) {
             <Fab
                 color="primary"
                 aria-label="toggle fullscreen"
-                style={{ position: "fixed", top: 32, right: 32 }}
+                style={{ position: "fixed", top: 16, right: 16 }}
                 onClick={isFullscreen ? exitFullscreen : () => requestFullscreen(ref.current)}
             >
                 {isFullscreen ? <FullscreenExitIcon /> : <FullscreenIcon />}
@@ -54,7 +54,7 @@ export function WhiteboardPage(props: WhiteboardPageProps) {
             <Fab
                 color="primary"
                 aria-label="clear"
-                style={{ position: "fixed", top: 32, left: 32 }}
+                style={{ position: "fixed", top: 16, left: 16 }}
                 onClick={handleClear}
             >
                 <ClearIcon />

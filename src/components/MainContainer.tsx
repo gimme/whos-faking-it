@@ -20,7 +20,7 @@ export function MainContainer(props: Props) {
                 justifyContent: "center",
                 alignItems: "center",
                 minHeight: "100vh",
-                padding: "60px 20px",
+                padding: "30px 20px 60px 20px",
             }}
         >
             {props.children}
