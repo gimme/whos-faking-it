@@ -49,6 +49,10 @@ const howManyLow: PromptCardSpec = {
         { tags: ["trivia"], prompt: "How many manned missions have been sent to the moon?" },
         { tags: ["trivia"], prompt: "How many people have walked on the moon?" },
         { tags: ["trivia"], prompt: "How many sequels are there to The Fast and the Furious?" },
+        {
+            tags: ["trivia"],
+            prompt: "How many years does it take for a plastic bottle to completely disintegrate in the ocean?",
+        },
     ],
     fakePrompts: ["Pick a number from 0–10."],
 }
