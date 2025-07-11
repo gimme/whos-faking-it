@@ -43,7 +43,8 @@ export function DeterministicGameGenerator(): GameService {
         const generatedCards = modulesToUse.flatMap((module) => generateCardsFromModule(module, rng))
         const shuffledDeck = shuffleCards(generatedCards, rng)
 
-        return Array.from({ length: shuffledDeck.length }, (_, i) => i).map((index) => {
+        const deckSize = Math.min(99, shuffledDeck.length)
+        return Array.from({ length: deckSize }, (_, i) => i).map((index) => {
             const activeCard = shuffledDeck[index]
             const playerRoles = randomizeRoles(settings.seatCount, rng)
             return {
