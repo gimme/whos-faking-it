@@ -1,23 +1,26 @@
 import { useLayoutEffect, useState } from "react"
 
+import screenfull from "screenfull"
+
 export function useFullscreen() {
-    const [isFullscreen, setIsFullscreen] = useState<boolean>(!!document.fullscreenElement)
+    const [isFullscreen, setIsFullscreen] = useState<boolean>(screenfull.isFullscreen)
 
     useLayoutEffect(() => {
-        const trackFullscreen = () => setIsFullscreen(!!document.fullscreenElement)
+        if (!screenfull.isEnabled) {
+            console.warn("Fullscreen API is not supported in this browser.")
+            return
+        }
+        const trackFullscreen = () => setIsFullscreen(screenfull.isFullscreen)
         trackFullscreen() // Initial check
-        document.addEventListener("fullscreenchange", trackFullscreen)
-        return () => document.removeEventListener("fullscreenchange", trackFullscreen)
+        screenfull.on("change", trackFullscreen)
+        return () => {
+            screenfull.off("change", trackFullscreen)
+        }
     }, [])
 
-    const requestFullscreen = (element: HTMLElement | null) => {
-        element?.requestFullscreen?.()
-    }
+    const requestFullscreen = () => screenfull.request()
 
-    const exitFullscreen = () => {
-        if (!document.fullscreenElement) return
-        document.exitFullscreen()
-    }
+    const exitFullscreen = () => screenfull.exit()
 
-    return { isFullscreen, requestFullscreen, exitFullscreen }
+    return { isFullscreen, isFullscreenSupported: screenfull.isEnabled, requestFullscreen, exitFullscreen }
 }

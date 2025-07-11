@@ -23,6 +23,7 @@
         "react-dom": "^19.1.0",
         "react-router": "^7.6.0",
         "react-sketch-canvas": "^6.2.0",
+        "screenfull": "^6.0.2",
         "seedrandom": "^3.0.5"
     },
     "devDependencies": {

@@ -35,6 +35,9 @@ importers:
       react-sketch-canvas:
         specifier: ^6.2.0
         version: 6.2.0(react@19.1.0)
+      screenfull:
+        specifier: ^6.0.2
+        version: 6.0.2
       seedrandom:
         specifier: ^3.0.5
         version: 3.0.5
@@ -1389,6 +1392,10 @@ packages:
 
   scheduler@0.26.0:
     resolution: {integrity: sha512-NlHwttCI/l5gCPR3D1nNXtWABUmBwvZpEQiD4IXSbIDq8BzLIK/7Ir5gTFSGZDUu37K5cMNp0hFtzO38sC7gWA==}
+
+  screenfull@6.0.2:
+    resolution: {integrity: sha512-AQdy8s4WhNvUZ6P8F6PB21tSPIYKniic+Ogx0AacBMjKP1GUHN2E9URxQHtCusiwxudnCKkdy4GrHXPPJSkCCw==}
+    engines: {node: ^14.13.1 || >=16.0.0}
 
   seedrandom@3.0.5:
     resolution: {integrity: sha512-8OwmbklUNzwezjGInmZ+2clQmExQPvomqjL7LFqOYqtmuxRgQYqOD3mHaU+MvZn5FLUeVxVfQjwLZW/n/JFuqg==}
@@ -2877,6 +2884,8 @@ snapshots:
       queue-microtask: 1.2.3
 
   scheduler@0.26.0: {}
+
+  screenfull@6.0.2: {}
 
   seedrandom@3.0.5: {}
 

@@ -14,9 +14,8 @@ type WhiteboardPageProps = {
 
 export function WhiteboardPage(props: WhiteboardPageProps) {
     const theme = useTheme()
-    const ref = useRef<HTMLDivElement>(null)
     const whiteboardRef = useRef<WhiteboardElement>(null)
-    const { isFullscreen, requestFullscreen, exitFullscreen } = useFullscreen()
+    const { isFullscreen, isFullscreenSupported, requestFullscreen, exitFullscreen } = useFullscreen()
 
     const handleClear = () => {
         whiteboardRef.current?.clearAll?.()
@@ -24,7 +23,6 @@ export function WhiteboardPage(props: WhiteboardPageProps) {
 
     return (
         <Box
-            ref={ref}
             style={{
                 display: props.hidden ? "none" : undefined,
                 position: "absolute",
@@ -43,14 +41,16 @@ export function WhiteboardPage(props: WhiteboardPageProps) {
                 boardColor={theme.palette.whiteboard}
                 markerColor={theme.palette.text.primary}
             />
-            <Fab
-                color="primary"
-                aria-label="toggle fullscreen"
-                style={{ position: "fixed", top: 16, right: 16 }}
-                onClick={isFullscreen ? exitFullscreen : () => requestFullscreen(ref.current)}
-            >
-                {isFullscreen ? <FullscreenExitIcon /> : <FullscreenIcon />}
-            </Fab>
+            {isFullscreenSupported && (
+                <Fab
+                    color="primary"
+                    aria-label="toggle fullscreen"
+                    style={{ position: "fixed", top: 16, right: 16 }}
+                    onClick={isFullscreen ? exitFullscreen : requestFullscreen}
+                >
+                    {isFullscreen ? <FullscreenExitIcon /> : <FullscreenIcon />}
+                </Fab>
+            )}
             <Fab
                 color="primary"
                 aria-label="clear"
