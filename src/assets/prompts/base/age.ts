@@ -11,6 +11,8 @@ const lowAge: PromptCardSpec = {
         "What's a good age to be physically?",
         "What's a good age to start working?",
         "What age do you think the average adult feels like they are?",
+        "What's a good age to buy your first house?",
+        "What's a good age to move out?",
     ],
 }
 

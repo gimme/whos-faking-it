@@ -22,12 +22,20 @@ const howManyTimesPer: PromptCardSpec = {
         "How many times per year do you go to the cinema?",
         "How many books do you read per year?",
     ],
-    fakePrompts: ["Pick a number from 0–20."],
+    fakePrompts: [
+        "Pick a number from 0–20.",
+        "Pick a number from 3–8.",
+        "Pick a number from 0–5.",
+        "Pick a number from 5–15.",
+    ],
 }
 
 const howManyLow: PromptCardSpec = {
     prompts: [
-        "How many kids could you see yourself having?",
+        "How many kids would you at LEAST like to have?",
+        "How many kids could you see yourself having at MOST?",
+        "How many kids is the most you could handle without being miserable?",
+        "What's the perfect amount of siblings in a family?",
         "How many showers is a good amount to take per week?",
         "How many different countries have you been in?",
         "How many hot dogs could you eat in 5 minutes?",
@@ -45,52 +53,83 @@ const howManyLow: PromptCardSpec = {
         "How many cavities has the average person had?",
         "How many people would you want in your zombie apocalypse survival team?",
         'How many different "best friends" have you had?',
+        "How many children could you take in a fight?",
+        "How many times have you been seriously injured?",
+        "How many pizza slices could you eat in one sitting?",
+        "How many different best friends have you had?",
         { tags: ["trivia"], prompt: "How many years did World War I last?" },
         { tags: ["trivia"], prompt: "How many manned missions have been sent to the moon?" },
         { tags: ["trivia"], prompt: "How many people have walked on the moon?" },
         { tags: ["trivia"], prompt: "How many sequels are there to The Fast and the Furious?" },
-        {
-            tags: ["trivia"],
-            prompt: "How many years does it take for a plastic bottle to completely disintegrate in the ocean?",
-        },
     ],
-    fakePrompts: ["Pick a number from 0–10."],
+    fakePrompts: [
+        "Pick a number from 0–10.",
+        "Pick a number from 3–8.",
+        "Pick a number from 0–5.",
+        "Pick a number from 5–12.",
+    ],
 }
 
 const howManyMedium: PromptCardSpec = {
     prompts: [
-        "How many hot dogs could you eat in 10 minutes?",
-        "How many hot dogs could you eat in an hour?",
-        "How many hot dogs could you eat in a day?",
-        "How many hot dogs could you smuggle into a movie theatre?",
+        "How many hot dogs could you eat in 1 day?",
+        "How many hot dogs could you smuggle into a movie theatre without getting caught?",
         "How many marshmallows could you fit in your mouth?",
         "How many potato chips could you eat in 30 seconds?",
         "How many push-ups can you do in a row?",
         "How many words can you type in a minute?",
         "How many people would you want at your wedding?",
         "How many actors could you name in 1 minute?",
+        "How many people would show up to your birthday party?",
         { tags: ["trivia"], prompt: "How many letters are there in the Arabic alphabet?" },
         { tags: ["trivia"], prompt: "How many eggs does a chicken lay in a month?" },
         { tags: ["trivia"], prompt: "How many players are there in an NFL team?" },
     ],
-    fakePrompts: ["Pick a number from 10–100."],
+    fakePrompts: [
+        "Pick a number from 10–100.",
+        "Pick a number from 5–50.",
+        "Pick a number from 20–100.",
+        "Pick a number from 3–20.",
+    ],
 }
 
 const howManyHigh: PromptCardSpec = {
+    realPrompts: [
+        "If you stopped aging physically but were forced to live until a certain age, what number would you pick?",
+    ],
     prompts: [
+        "How many songs are in your favorite playlist?",
         { tags: ["trivia"], prompt: "How many countries are there in the world?" },
         { tags: ["trivia"], prompt: "How many hieroglyphs are there?" },
         { tags: ["trivia"], prompt: "How many people have been to space?" },
-        "If you stopped aging today and were forced to live until a certain age, what number would you pick?",
+        {
+            tags: ["trivia"],
+            prompt: "How many years does it take for a plastic bottle to completely disintegrate in the ocean?",
+        },
     ],
     fakePrompts: ["Pick a number from 100–10,000."],
 }
 
-const howManyHotDogs: PromptCardSpec = {
+const hotDogsForCash: PromptCardSpec = {
     prompts: [
         "How many hot dogs would you eat today if you got $10 for each one?",
         "How many hot dogs would you eat today if you got $1 million for each one?",
     ],
+}
+
+const hotDogsInMinutes: PromptCardSpec = {
+    realPrompts: ["How many hot dogs could you eat in 5 minutes?"],
+    fakePrompts: ["How many hot dogs could you eat in 1 minute?", "How many hot dogs could you eat in 1 hour?"],
+}
+
+const hotDogsInHours: PromptCardSpec = {
+    realPrompts: ["How many hot dogs could you eat in 1 hour?"],
+    fakePrompts: ["How many hot dogs could you eat in 5 minutes?", "How many hot dogs could you eat in 1 day?"],
+}
+
+const hotDogsInDays: PromptCardSpec = {
+    realPrompts: ["How many hot dogs could you eat in 1 day?"],
+    fakePrompts: ["How many hot dogs could you eat in 1 hour?", "How many hot dogs could you eat in 1 week?"],
 }
 
 const howManyContinents: PromptCardSpec = {
@@ -108,6 +147,8 @@ const outOf10: PromptCardSpec = {
         "Rate your current mood out of 10.",
         "Rate Interstellar out of 10.",
         "Rate Shrek out of 10.",
+        "Rate your work ethic 0-10.",
+        "How feminist are you out of 10?",
         "How many free throws can you make out of 10?",
     ],
     fakePrompts: ["Pick a number from 0–10."],
@@ -115,5 +156,16 @@ const outOf10: PromptCardSpec = {
 
 export const numericalModule: Module = {
     tags: ["numerical"],
-    promptSpecs: [howManyTimesPer, howManyLow, howManyMedium, howManyHigh, howManyHotDogs, howManyContinents, outOf10],
+    promptSpecs: [
+        howManyTimesPer,
+        howManyLow,
+        howManyMedium,
+        howManyHigh,
+        hotDogsForCash,
+        hotDogsInMinutes,
+        hotDogsInHours,
+        hotDogsInDays,
+        howManyContinents,
+        outOf10,
+    ],
 }

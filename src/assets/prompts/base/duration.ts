@@ -50,6 +50,7 @@ const hours: PromptCardSpec = {
         "How much time do you spend on your phone per day?",
         "How much time do you think the average person spends on their phone per day?",
         "How much time do you spend working per day?",
+        "How much time do you spend exercising per week?",
         "How much time do you spend on your hobbies per week?",
         "How much time do you spend exercising per week?",
         "How much time do you think the average healthy person spends exercising per week?",
@@ -81,6 +82,7 @@ const months: PromptCardSpec = {
 
 const years: PromptCardSpec = {
     prompts: [
+        "How long should you date someone before getting engaged?",
         "How long should you date someone before marrying them?",
         "How long have you had your current phone?",
         "For how many years did you believe in Santa?",

@@ -9,11 +9,37 @@ const moneyLow: PromptCardSpec = {
 const moneyMedium: PromptCardSpec = {
     prompts: [
         "How much money would it take for you to run down the street naked right now?",
+        "How much money would it take for you to spend 3 months in jail?",
+        "How much money would you give your best friend if you won $100 million?",
         "How much money would it take for you to move to another city?",
         "If the Mona Lisa was put up for auction, how much would you bid?",
         "How much would you pay to go to space?",
     ],
     fakePrompts: ["Pick an amount of money from $0–$1,000,000 (using your preferred currency)."],
+}
+
+const weekInJail: PromptCardSpec = {
+    prompts: ["How much money would it take for you to spend 1 week in jail?"],
+    fakePrompts: [
+        "How much money would it take for you to spend 1 day in jail?",
+        "How much money would it take for you to spend 2 months in jail?",
+    ],
+}
+
+const monthInJail: PromptCardSpec = {
+    prompts: ["How much money would it take for you to spend 1 month in jail?"],
+    fakePrompts: [
+        "How much money would it take for you to spend 1 week in jail?",
+        "How much money would it take for you to spend 1 year in jail?",
+    ],
+}
+
+const yearInJail: PromptCardSpec = {
+    prompts: ["How much money would it take for you to spend 1 year in jail?"],
+    fakePrompts: [
+        "How much money would it take for you to spend 1 month in jail?",
+        "How much money would it take for you to spend 10 years in jail?",
+    ],
 }
 
 const moneyHigh: PromptCardSpec = {
@@ -32,5 +58,5 @@ const outfit: PromptCardSpec = {
 }
 
 export const moneyModule: Module = {
-    promptSpecs: [moneyLow, moneyMedium, moneyHigh, outfit],
+    promptSpecs: [moneyLow, moneyMedium, moneyHigh, outfit, weekInJail, monthInJail, yearInJail],
 }

@@ -30,7 +30,12 @@ const artist: PromptCardSpec = {
         "Name an artist with a great voice.",
         'What\'s a "guilty pleasure" artist you have?',
     ],
-    fakePrompts: ["Who's your favorite artist?", "What artist is the greatest of all time?", "Name a rapper."],
+    fakePrompts: [
+        "Who's your favorite artist?",
+        "What artist is the greatest of all time?",
+        "Who's the reigning king/queen of pop?",
+        "Name a rapper.",
+    ],
 }
 
 const twoArtists: PromptCardSpec = {
