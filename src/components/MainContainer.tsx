@@ -13,13 +13,13 @@ export function MainContainer(props: Props) {
     return (
         <Container
             component="main"
-            maxWidth="xs"
+            maxWidth="sm"
             style={{
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "center",
                 alignItems: "center",
-                minHeight: "100vh",
+                minHeight: "100dvh",
                 padding: "30px 20px 60px 20px",
             }}
         >
