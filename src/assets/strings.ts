@@ -22,8 +22,8 @@ export default {
     game: {
         round: "Round",
         displayYourPrompt: "Tap to reveal your prompt...",
-        revealRealPrompt: "Reveal public prompt",
-        next: "Next",
+        revealRealPrompt: "Reveal group prompt",
+        next: "Next Round",
         roundNotFound: "Out of rounds",
         gameNotFound: "Game not found",
     },
