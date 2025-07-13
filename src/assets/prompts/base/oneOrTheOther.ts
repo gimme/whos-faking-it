@@ -62,6 +62,34 @@ const aliens: PromptCardSpec = {
     prompts: ["Are there aliens out there?", "Are we alone in the universe?"],
 }
 
+const prisonVsExile: PromptCardSpec = {
+    prompts: [
+        "Would you rather: spend 1 year in prison or be banished from your country forever?",
+        "What's worse: spend 1 year in prison or be banished from your country forever?",
+    ],
+}
+
+const musicVsMovies: PromptCardSpec = {
+    prompts: [
+        "Would you rather: live in a world without music or without movies?",
+        "What's worse: live in a world without music or without movies?",
+    ],
+}
+
+const moneyVsTime: PromptCardSpec = {
+    prompts: [
+        "Would you rather: have unlimited money or unlimited time?",
+        "What's worse: have unlimited money or unlimited time?",
+    ],
+}
+
+const internetVsNature: PromptCardSpec = {
+    prompts: [
+        "Would you rather: live in a world without the internet or without nature?",
+        "What's worse: live in a world without the internet or without nature?",
+    ],
+}
+
 export const oneOrTheOtherModule: Module = {
     promptSpecs: [
         gorillaVsHuman,
@@ -77,5 +105,9 @@ export const oneOrTheOtherModule: Module = {
         humble,
         menWomenDrama,
         aliens,
+        prisonVsExile,
+        musicVsMovies,
+        moneyVsTime,
+        internetVsNature,
     ],
 }
