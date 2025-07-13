@@ -95,24 +95,17 @@ export default function GamePage() {
                                 borderRadius: 2,
                                 minHeight: "150px",
                                 alignContent: "center",
+                                backgroundColor: revealRealPrompt ? "primary.shade" : undefined,
                             }}
                         >
                             {displayPrompt ? (
-                                revealRealPrompt ? (
-                                    <Typography component="p" variant="body1" align="center" color={"green"}>
-                                        {realPrompt}
-                                    </Typography>
-                                ) : (
-                                    <Typography component="p" variant="body1" align="center">
-                                        {prompt}
-                                    </Typography>
-                                )
+                                <Typography component="p" variant="body1" align="center">
+                                    {revealRealPrompt ? realPrompt : prompt}
+                                </Typography>
                             ) : (
-                                <>
-                                    <Typography component="p" variant="body1" align="center" color="text.secondary">
-                                        {strings.game.displayYourPrompt}
-                                    </Typography>
-                                </>
+                                <Typography component="p" variant="body1" align="center" color="text.secondary">
+                                    {strings.game.displayYourPrompt}
+                                </Typography>
                             )}
                         </Box>
                     </Stack>
@@ -126,7 +119,7 @@ export default function GamePage() {
                     </Button>
                 </Stack>
                 <Fab
-                    color="primary"
+                    color="secondary"
                     aria-label="open whiteboard"
                     style={{ position: "fixed", bottom: 16, right: 16 }}
                     onClick={handleToggleWhiteboard}

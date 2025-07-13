@@ -7,10 +7,11 @@ const darkTheme = createTheme({
     palette: {
         mode: "dark",
         primary: {
-            main: blue[200],
+            main: blue[500],
+            shade: "#2196f333",
         },
         secondary: {
-            main: purple[200],
+            main: purple[500],
         },
         whiteboard: "#000",
     },
@@ -21,6 +22,7 @@ const lightTheme = createTheme({
         mode: "light",
         primary: {
             main: blue[500],
+            shade: "#2196f333",
         },
         secondary: {
             main: purple[500],
@@ -32,8 +34,12 @@ const lightTheme = createTheme({
 declare module "@mui/material/styles" {
     interface Palette {
         whiteboard: string
+        shade: string
     }
     interface PaletteOptions {
         whiteboard: string
+    }
+    interface SimplePaletteColorOptions {
+        shade?: string
     }
 }

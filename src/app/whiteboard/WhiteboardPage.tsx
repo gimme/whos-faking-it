@@ -43,7 +43,7 @@ export function WhiteboardPage(props: WhiteboardPageProps) {
             />
             {isFullscreenSupported && (
                 <Fab
-                    color="primary"
+                    color="secondary"
                     aria-label="toggle fullscreen"
                     style={{ position: "fixed", top: 16, right: 16 }}
                     onClick={isFullscreen ? exitFullscreen : requestFullscreen}
@@ -52,7 +52,7 @@ export function WhiteboardPage(props: WhiteboardPageProps) {
                 </Fab>
             )}
             <Fab
-                color="primary"
+                color="secondary"
                 aria-label="clear"
                 style={{ position: "fixed", top: 16, left: 16 }}
                 onClick={handleClear}
