@@ -19,7 +19,7 @@ const howManyTimesPer: PromptCardSpec = {
         "How many times per month do you eat fast food?",
         "How many times per year do you leave your city?",
         "How many times per year do you get a haircut?",
-        "How many times per year do you go to the cinema?",
+        "How many times per year do you go to the movie theater?",
         "How many books do you read per year?",
     ],
     fakePrompts: [
@@ -32,21 +32,22 @@ const howManyTimesPer: PromptCardSpec = {
 
 const howManyLow: PromptCardSpec = {
     prompts: [
-        "How many kids would you at LEAST like to have?",
-        "How many kids could you see yourself having at MOST?",
-        "How many kids is the most you could handle without being miserable?",
+        "How many kids could you see yourself having?",
+        "How many kids could you see yourself having at the very most?",
+        "How many kids would you need to have to be miserable?",
         "What's the perfect amount of siblings in a family?",
         "How many showers is a good amount to take per week?",
         "How many different countries have you been in?",
         "How many hot dogs could you eat in 5 minutes?",
         "How many times do you wake up during the night?",
-        "How many times could you juggle a soccer ball in a row?",
+        "How many times could you juggle a soccer ball in one go?",
         "How many alcoholic drinks have you had in one night?",
         "How many condiments belong on a hot dog?",
         "Which Star Wars Episode is the best (1-9)?",
         "How many times have you seen Shawshank Redemption?",
         "How many times have you seen Shrek?",
-        "How many cups of coffee have you had today?",
+        "How many sips of coffee have you had today?",
+        "How many gulps of water do you take when you drink?",
         "How many sports did you try as a kid?",
         "How many pairs of shoes do you own?",
         "How many close friends does the average person have?",
@@ -56,7 +57,6 @@ const howManyLow: PromptCardSpec = {
         "How many children could you take in a fight?",
         "How many times have you been seriously injured?",
         "How many pizza slices could you eat in one sitting?",
-        "How many different best friends have you had?",
         { tags: ["trivia"], prompt: "How many years did World War I last?" },
         { tags: ["trivia"], prompt: "How many manned missions have been sent to the moon?" },
         { tags: ["trivia"], prompt: "How many people have walked on the moon?" },
@@ -73,17 +73,17 @@ const howManyLow: PromptCardSpec = {
 const howManyMedium: PromptCardSpec = {
     prompts: [
         "How many hot dogs could you eat in 1 day?",
-        "How many hot dogs could you smuggle into a movie theatre without getting caught?",
+        "How many hot dogs could you smuggle into a movie theater without getting caught?",
         "How many marshmallows could you fit in your mouth?",
         "How many potato chips could you eat in 30 seconds?",
-        "How many push-ups can you do in a row?",
+        "How many push-ups can you do?",
         "How many words can you type in a minute?",
         "How many people would you want at your wedding?",
         "How many actors could you name in 1 minute?",
         "How many people would show up to your birthday party?",
         { tags: ["trivia"], prompt: "How many letters are there in the Arabic alphabet?" },
         { tags: ["trivia"], prompt: "How many eggs does a chicken lay in a month?" },
-        { tags: ["trivia"], prompt: "How many players are there in an NFL team?" },
+        { tags: ["trivia"], prompt: "How many players are there in a football team?" },
     ],
     fakePrompts: [
         "Pick a number from 10–100.",
@@ -119,17 +119,22 @@ const hotDogsForCash: PromptCardSpec = {
 
 const hotDogsInMinutes: PromptCardSpec = {
     realPrompts: ["How many hot dogs could you eat in 5 minutes?"],
-    fakePrompts: ["How many hot dogs could you eat in 1 minute?", "How many hot dogs could you eat in 1 hour?"],
+    fakePrompts: ["How many hot dogs could you eat in 1 minute?", "How many hot dogs could you eat in 30 minutes?"],
 }
 
 const hotDogsInHours: PromptCardSpec = {
-    realPrompts: ["How many hot dogs could you eat in 1 hour?"],
-    fakePrompts: ["How many hot dogs could you eat in 5 minutes?", "How many hot dogs could you eat in 1 day?"],
+    realPrompts: ["How many hot dogs could you eat in 2 hours?"],
+    fakePrompts: ["How many hot dogs could you eat in 30 minutes?", "How many hot dogs could you eat in 1 day?"],
 }
 
 const hotDogsInDays: PromptCardSpec = {
     realPrompts: ["How many hot dogs could you eat in 1 day?"],
-    fakePrompts: ["How many hot dogs could you eat in 1 hour?", "How many hot dogs could you eat in 1 week?"],
+    fakePrompts: ["How many hot dogs could you eat in 2 hours?", "How many hot dogs could you eat in 3 days?"],
+}
+
+const hotDogsModule: Module = {
+    promptSpecs: [hotDogsForCash, hotDogsInMinutes, hotDogsInHours, hotDogsInDays],
+    maxCards: 3,
 }
 
 const howManyContinents: PromptCardSpec = {
@@ -156,16 +161,6 @@ const outOf10: PromptCardSpec = {
 
 export const numericalModule: Module = {
     tags: ["numerical"],
-    promptSpecs: [
-        howManyTimesPer,
-        howManyLow,
-        howManyMedium,
-        howManyHigh,
-        hotDogsForCash,
-        hotDogsInMinutes,
-        hotDogsInHours,
-        hotDogsInDays,
-        howManyContinents,
-        outOf10,
-    ],
+    promptSpecs: [howManyTimesPer, howManyLow, howManyMedium, howManyHigh, howManyContinents, outOf10],
+    subModules: [hotDogsModule],
 }

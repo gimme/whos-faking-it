@@ -4,16 +4,21 @@ import type { PromptCardSpec } from "@/app/prompt/prompt-card-spec"
 const item: PromptCardSpec = {
     realPrompts: ["What's the best item to have during a zombie apocalypse?"],
     prompts: [
-        "What is a good thing to always keep in your bag?",
-        "What's the worst gift to receive?",
+        "What's a good thing to have in your bag?",
+        "What's a bad gift to receive?",
         "Name something you bring on vacation.",
         "Name a strange thing you own.",
         "Name an item you value a lot.",
         "Name something a collector might collect.",
-        "What item would you bring to a remote island?",
-        "What's a bad item to bring to a remote island?",
+        "Name something you'd never buy.",
+        "What's the weirdest thing you have in your pantry?",
+        "Name an item you'd want to have if you were stranded in the wilderness.",
     ],
     fakePrompts: ['Name an item that starts with "A".'],
+}
+
+const island: PromptCardSpec = {
+    prompts: ["What item would you bring to a deserted island?", "What's a bad item to bring to a deserted island?"],
 }
 
 const purchase: PromptCardSpec = {
@@ -21,10 +26,10 @@ const purchase: PromptCardSpec = {
 }
 
 const lottery: PromptCardSpec = {
-    realPrompts: ["What's the first thing you would buy after winning the lottery?"],
+    realPrompts: ["What's the first thing you'd buy after winning the lottery?"],
     fakePrompts: ["What's something expensive that you wouldn't want even if it was free?"],
 }
 
 export const itemModule: Module = {
-    promptSpecs: [item, purchase, lottery],
+    promptSpecs: [item, island, purchase, lottery],
 }

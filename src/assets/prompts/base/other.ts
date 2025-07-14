@@ -47,9 +47,10 @@ const firstThingYouDo: PromptCardSpec = {
     prompts: [
         "What's the first thing you'd do after winning the lottery?",
         "What's the first thing you'd do if you had only 1 year to live?",
-        "What's the first thing you'd do if you had only 1 day to live?",
+        "What's the first thing you'd do if there was no tomorrow?",
+        "What's the first thing you'd do in a zombie apocalypse?",
         'Name a "bucket list" item.',
-        "If money were no object, what would you do?",
+        "If money were no object, what's something you'd like to do?",
     ],
 }
 

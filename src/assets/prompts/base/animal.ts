@@ -6,6 +6,7 @@ const animal: PromptCardSpec = {
     prompts: [
         "Name an animal you could take in a fight.",
         "Name a cute animal.",
+        "What animal do you look like?",
         "If you were an animal, what would you be?",
         "If you could live as any animal for a week, what would it be?",
         "If you could talk to any animal, what would it be?",

@@ -4,19 +4,19 @@ import type { PromptCardSpec } from "@/app/prompt/prompt-card-spec"
 const howMuch: PromptCardSpec = {
     prompts: [
         "How much money is in your bank account right now?",
-        "How much money would you accept to shave your head right now?",
-        "How much money would you accept to dye your hair a crazy color right now?",
-        "How much money would you accept to get a tattoo right now?",
-        "How much money would you accept to get a piercing right now?",
-        "How much money would you accept to run down the street naked right now?",
-        "How much money would you accept to eat 8 raw eggs right now?",
+        "For how much money would you shave your head right now?",
+        "For how much money would you dye your hair a crazy color right now?",
+        "For how much money would you get a random tattoo right now?",
+        "For how much money would you get a new piercing right now?",
+        "For how much money would you run down the street naked right now?",
+        "For how much money would you eat 8 raw eggs right now?",
         "How much would you pay for a meal at the best restaurant in the world?",
         "How much would you pay to go to the moon?",
         "How much would you pay to go to the international space station?",
         "How much would you pay to see the Titanic wreck?",
         "If the Mona Lisa was put up for auction, how much would you bid?",
     ],
-    fakePrompts: ["Pick from $0–$100,000 (using your preferred currency)."],
+    fakePrompts: ["Pick an amount from $0–$100,000 (using your preferred currency)."],
 }
 
 const spendOnPeople: PromptCardSpec = {
@@ -39,8 +39,8 @@ const spendOnAHouse: PromptCardSpec = {
 
 const leaveHome: PromptCardSpec = {
     prompts: [
-        "How much money would you accept to never live in your city again?",
-        "How much money would you accept to never live in your country again?",
+        "For how much money would you agree to never live in your city again?",
+        "For how much money would you agree to never live in your country again?",
     ],
 }
 
@@ -51,54 +51,54 @@ const outfit: PromptCardSpec = {
         "How much is your current outfit worth?",
         "How much do you spend on clothes per year?",
     ],
-    fakePrompts: ["Pick from $0–$1,000 (using your preferred currency)."],
+    fakePrompts: ["Pick an amount from $0–$1,000 (using your preferred currency)."],
 }
 
 const dayInJail: PromptCardSpec = {
-    prompts: ["How much money would you accept to spend 24 hours in jail?"],
+    prompts: ["For how much money would you agree to do 24 hours in jail?"],
     fakePrompts: [
-        "How much money would you accept to spend 3 hours in jail?",
-        "How much money would you accept to spend 1 week in jail?",
+        "For how much money would you agree to do 3 hours in jail?",
+        "For how much money would you agree to do 1 week in jail?",
     ],
 }
 
 const weekInJail: PromptCardSpec = {
-    prompts: ["How much money would you accept to spend 1 week in jail?"],
+    prompts: ["For how much money would you agree to do 1 week in jail?"],
     fakePrompts: [
-        "How much money would you accept to spend 24 hours in jail?",
-        "How much money would you accept to spend 1 month in jail?",
+        "For how much money would you agree to do 24 hours in jail?",
+        "For how much money would you agree to do 1 month in jail?",
     ],
 }
 
 const monthInJail: PromptCardSpec = {
-    prompts: ["How much money would you accept to spend 1 month in jail?"],
+    prompts: ["For how much money would you agree to do 1 month in jail?"],
     fakePrompts: [
-        "How much money would you accept to spend 1 week in jail?",
-        "How much money would you accept to spend 3 months in jail?",
+        "For how much money would you agree to do 1 week in jail?",
+        "For how much money would you agree to do 3 months in jail?",
     ],
 }
 
 const monthsInJail: PromptCardSpec = {
-    prompts: ["How much money would you accept to spend 3 months in jail?"],
+    prompts: ["For how much money would you agree to do 3 months in jail?"],
     fakePrompts: [
-        "How much money would you accept to spend 1 month in jail?",
-        "How much money would you accept to spend 1 year in prison?",
+        "For how much money would you agree to do 1 month in jail?",
+        "For how much money would you agree to do 1 year in prison?",
     ],
 }
 
 const yearInJail: PromptCardSpec = {
-    prompts: ["How much money would you accept to spend 1 year in prison?"],
+    prompts: ["For how much money would you agree to do 1 year in prison?"],
     fakePrompts: [
-        "How much money would you accept to spend 3 months in jail?",
-        "How much money would you accept to spend 3 years in prison?",
+        "For how much money would you agree to do 3 months in jail?",
+        "For how much money would you agree to do 3 years in prison?",
     ],
 }
 
 const yearsInJail: PromptCardSpec = {
-    prompts: ["How much money would you accept to spend 3 years in prison?"],
+    prompts: ["For how much money would you agree to do 3 years in prison?"],
     fakePrompts: [
-        "How much money would you accept to spend 1 year in prison?",
-        "How much money would you accept to spend 6 years in prison?",
+        "For how much money would you agree to do 1 year in prison?",
+        "For how much money would you agree to do 6 years in prison?",
     ],
 }
 
