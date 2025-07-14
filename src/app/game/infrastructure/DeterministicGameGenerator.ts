@@ -41,15 +41,14 @@ export function DeterministicGameGenerator(): GameService {
                 ? ALL_PLAYABLE_MODULES.filter((_, index) => includedModules.includes(index))
                 : [DEFAULT_MODULE] // Default if none are selected
         const generatedCards = modulesToUse.flatMap((module) => generateCardsFromModule(module, rng))
-        const shuffledDeck = shuffleCards(generatedCards, rng)
+        const deckSizeLimit = 99
+        const shuffledDeck = shuffleCards(generatedCards, rng).slice(0, deckSizeLimit)
 
-        const deckSize = Math.min(99, shuffledDeck.length)
-        return Array.from({ length: deckSize }, (_, i) => i).map((index) => {
-            const activeCard = shuffledDeck[index]
+        return shuffledDeck.map((card, index) => {
             const playerRoles = randomizeRoles(settings.seatCount, rng)
             return {
                 roundNumber: index + 1,
-                activeCard,
+                activeCard: card,
                 playerRoles,
             }
         })
@@ -59,9 +58,7 @@ export function DeterministicGameGenerator(): GameService {
         const shuffled = [...cards]
         for (let i = shuffled.length - 1; i > 0; i--) {
             const j = Math.floor(rng() * (i + 1))
-            const temp = shuffled[i]
-            shuffled[i] = shuffled[j]
-            shuffled[j] = temp
+            ;[shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]
         }
         return shuffled
     }
