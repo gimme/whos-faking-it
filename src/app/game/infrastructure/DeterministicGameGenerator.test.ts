@@ -85,14 +85,14 @@ describe("DeterministicGameGenerator", () => {
 
         const totalRounds = games.reduce((total, game) => total + game.rounds.length, 0)
 
-        function expectDistribution(impostorCount: number, expectedPercentage: number, tolerance: number = 0.05) {
+        function expectDistribution(impostorCount: number, expectedShare: number, tolerance: number = 0.05) {
             const count = countRoundsWithImpostorCount(impostorCount)
-            const percentage = count / totalRounds
+            const actualShare = count / totalRounds
             console.info(
-                `Impostor count ${impostorCount}: ${count} rounds -> ${percentage * 100}% (expected: ${expectedPercentage * 100}%)`,
+                `${impostorCount} impostors: Out of ${count} rounds -> Expected: ${expectedShare * 100}% ± ${tolerance * 100}%; got ${actualShare * 100}%`,
             )
-            expect(percentage).toBeGreaterThanOrEqual(expectedPercentage - tolerance)
-            expect(percentage).toBeLessThanOrEqual(expectedPercentage + tolerance)
+            expect(actualShare).toBeGreaterThanOrEqual(expectedShare - tolerance)
+            expect(actualShare).toBeLessThanOrEqual(expectedShare + tolerance)
         }
 
         expectDistribution(0, 1 / (seatCount + 2))
