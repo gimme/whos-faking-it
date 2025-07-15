@@ -30,10 +30,14 @@ const sweet: PromptCardSpec = {
     prompts: ["What's a good dessert?", "What's a good snack?"],
 }
 
-const aquiredTaste: PromptCardSpec = {
+const acquiredTaste: PromptCardSpec = {
     prompts: ["What's a food you can't stand?", "What's a food you learned to love?"],
 }
 
+const struggleMeal: PromptCardSpec = {
+    prompts: ['What\'s your "struggle meal"?', "What's the easiest thing to cook?", "What's a food you can cook well?"],
+}
+
 export const foodModule: Module = {
-    promptSpecs: [food, breakfast, sweet, aquiredTaste],
+    promptSpecs: [food, breakfast, sweet, acquiredTaste, struggleMeal],
 }

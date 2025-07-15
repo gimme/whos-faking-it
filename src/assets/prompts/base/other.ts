@@ -27,12 +27,17 @@ const invention: PromptCardSpec = {
     fakePrompts: ["If you could have any superpower, what would it be?"],
 }
 
+const research: PromptCardSpec = {
+    realPrompts: ["What's something that should get researched more?"],
+    fakePrompts: ["Name a problem that needs solving."],
+}
+
 const goodSuperpower: PromptCardSpec = {
     prompts: ["If you could have any superpower, what would it be?", "Name an overrated superpower."],
 }
 
 const badSuperpower: PromptCardSpec = {
-    prompts: ["What is the most useless superpower?", "Name an underrated superpower."],
+    prompts: ["What's the most useless superpower?", "Name an underrated superpower."],
 }
 
 const irrationalFear: PromptCardSpec = {
@@ -120,6 +125,7 @@ export const otherModule: Module = {
         squat,
         videoGame,
         invention,
+        research,
         goodSuperpower,
         badSuperpower,
         irrationalFear,
