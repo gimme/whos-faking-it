@@ -7,12 +7,7 @@ import type { SeatCount } from "@/app/game/domain/player"
 import type { Role } from "@/app/game/domain/role"
 import type { Round } from "@/app/game/domain/round"
 import { type GameSettings } from "@/app/game/domain/settings"
-import {
-    decodeGameSettings,
-    encodeGameSettings,
-    getDateOffsetFromGameCode,
-    getEntropyFromGameCode,
-} from "@/app/game/infrastructure/settings-encoding"
+import { decodeGame, encodeGame } from "@/app/game/infrastructure/settings-encoding"
 import { generateCardsFromModule } from "@/app/prompt/module"
 import { ALL_PLAYABLE_MODULES, DEFAULT_MODULE } from "@/assets/prompts/modules"
 import type { RNG } from "@/common.types"
@@ -24,12 +19,12 @@ import type { RNG } from "@/common.types"
 export function DeterministicGameGenerator(): GameService {
     return {
         createNewGame(settings: GameSettings): Game {
-            const newCode = encodeGameSettings(settings)
+            const newCode = encodeGame(settings)
             return generateGameDeterministicallyFromCode(newCode)
         },
         changeSettings(game: Game, settings: GameSettings): Game {
-            const entropy = getEntropyFromGameCode(game.code)
-            const newCode = encodeGameSettings(settings, entropy)
+            const entropy = decodeGame(game.code).entropy
+            const newCode = encodeGame(settings, entropy)
             return generateGameDeterministicallyFromCode(newCode)
         },
         findByCode(code: GameCode): Game | undefined {
@@ -44,16 +39,15 @@ export function DeterministicGameGenerator(): GameService {
 }
 
 function generateGameDeterministicallyFromCode(code: GameCode): Game {
-    const settings = decodeGameSettings(code)
+    const settings = decodeGame(code).settings
     const rounds = generateRounds(settings, code)
 
     return createGame(code, settings, rounds)
 }
 
 function generateRounds(settings: GameSettings, code: GameCode): ReadonlyArray<Round> {
-    const dateOffset = getDateOffsetFromGameCode(code)
-    const epochDays = Math.floor(Date.now() / (1000 * 60 * 60 * 24)) - dateOffset
-    const seededRng = seedrandom(code + epochDays)
+    const seed = decodeGame(code).seed
+    const seededRng = seedrandom(seed)
     const rng = () => seededRng()
 
     const includedModules = settings.includedModules

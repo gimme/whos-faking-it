@@ -12,6 +12,7 @@ import {
     bitsToNumber,
     extractBits,
     numberToBits,
+    valuesRepresentedByBits,
 } from "@/util/BitArray"
 import { BITS_PER_CHAR, decodeStringToBits, encodeBitsToString } from "@/util/number-encoding"
 
@@ -21,9 +22,26 @@ const DATE_OFFSET_BITS = 1 // 1 bit for date offset (0 or 1), to keep the game a
 const SEAT_COUNT_BITS = bitsRequiredFor(ALL_SEAT_COUNTS.length)
 
 /**
+ * Represents the relevant information that is encoded in a game code.
+ */
+type DecodedGame = {
+    settings: GameSettings
+    /**
+     * The seed which can be used to generate the randomness for the game in a deterministic way.
+     * The seed is guaranteed to stay valid for 24-48 hours. Then it will change to ensure that fresh games can be
+     * created in the same entropy space without the risk of collisions.
+     */
+    seed: string
+    /**
+     * The entropy which makes the `seed` unique for otherwise identical settings.
+     */
+    entropy: number
+}
+
+/**
  * Encodes game settings into a code that stores all necessary information to recreate the game.
  */
-export function encodeGameSettings(settings: GameSettings, entropy?: number): GameCode {
+export function encodeGame(settings: GameSettings, entropy?: number): GameCode {
     const { seatCount, includedModules } = settings
 
     const moduleBits: BitArray = Array.from({ length: Math.max(-1, ...includedModules) + 1 }, (_, i) =>
@@ -33,10 +51,10 @@ export function encodeGameSettings(settings: GameSettings, entropy?: number): Ga
     const seatCountOverMin = seatCount - MIN_SEAT_COUNT
 
     if (entropy === undefined) {
-        entropy = Math.floor(Math.random() * (bitmask(ENTROPY_BITS) + 1))
+        entropy = Math.floor(Math.random() * valuesRepresentedByBits(ENTROPY_BITS))
     }
 
-    const dateOffset = Math.floor(Date.now() / (1000 * 60 * 60 * 24)) % Math.pow(2, DATE_OFFSET_BITS)
+    const dateOffset = getTodaysDateOffset()
 
     const combined: BitArray = []
     combined.push(...moduleBits.reverse())
@@ -49,52 +67,41 @@ export function encodeGameSettings(settings: GameSettings, entropy?: number): Ga
 }
 
 /**
- * Decodes a game code back into settings.
+ * Decodes a game code back into the relevant data that was encoded in it.
  */
-export function decodeGameSettings(code: GameCode): GameSettings {
+export function decodeGame(code: GameCode): DecodedGame {
     const decodedBits = gameCodeToBits(code)
 
     const decodedChecksumBits = extractBits(decodedBits, CHECKSUM_BITS)
     const decodedChecksum = bitsToNumber(decodedChecksumBits)
     if (decodedChecksum !== checksum(decodedBits)) throw new Error("Invalid checksum")
 
-    extractBits(decodedBits, DATE_OFFSET_BITS + ENTROPY_BITS)
+    const decodedEntropyBits = extractBits(decodedBits, ENTROPY_BITS)
+    const entropy = bitsToNumber(decodedEntropyBits)
+
+    const decodedDateOffsetBits = extractBits(decodedBits, DATE_OFFSET_BITS)
+    const decodedDateOffset = bitsToNumber(decodedDateOffsetBits)
+    const gameCreationEpochDay = getGameCreationEpochDay(decodedDateOffset)
+    const seed = `${code}-${gameCreationEpochDay}`
 
     const decodedSeatBits = extractBits(decodedBits, SEAT_COUNT_BITS)
     const seatCount = (bitsToNumber(decodedSeatBits) + MIN_SEAT_COUNT) as SeatCount
 
-    const moduleBits = decodedBits.reverse()
-    const includedModules = bitsToIndices(moduleBits)
+    const decodedModuleBits = decodedBits.reverse()
+    const includedModules = bitsToIndices(decodedModuleBits)
 
-    return createGameSettings(seatCount, includedModules)
+    const settings = createGameSettings(seatCount, includedModules)
+
+    return {
+        settings,
+        seed,
+        entropy,
+    }
 }
 
 /**
- * Decodes the entropy value from a game code.
- * The entropy is used to produce unique rng values for the same settings.
+ * Converts a bit array into a game code string.
  */
-export function getEntropyFromGameCode(code: GameCode): number {
-    const decodedBits = gameCodeToBits(code)
-    extractBits(decodedBits, CHECKSUM_BITS)
-    const entropyBits = extractBits(decodedBits, ENTROPY_BITS)
-    return bitsToNumber(entropyBits)
-}
-
-/**
- * Returns the amount of days since the game was created, if today (0) or yesterday (1).
- */
-export function getDateOffsetFromGameCode(code: GameCode): number {
-    const decodedBits = gameCodeToBits(code)
-    extractBits(decodedBits, CHECKSUM_BITS + ENTROPY_BITS)
-    const gameDateOffsetBits = extractBits(decodedBits, DATE_OFFSET_BITS)
-    const gameDateOffset = bitsToNumber(gameDateOffsetBits)
-    const todayDateOffset = Math.floor(Date.now() / (1000 * 60 * 60 * 24)) % Math.pow(2, DATE_OFFSET_BITS)
-    const diff = todayDateOffset - gameDateOffset
-
-    if (diff < 0) return diff + Math.pow(2, DATE_OFFSET_BITS) // Adjust for negative difference
-    return diff
-}
-
 function bitsToGameCode(bits: BitArray): GameCode {
     const entropyBits = bits.slice(-(ENTROPY_BITS + CHECKSUM_BITS), -CHECKSUM_BITS)
     const entropy = bitsToNumber(entropyBits)
@@ -111,6 +118,9 @@ function bitsToGameCode(bits: BitArray): GameCode {
     return encodeBitsToString(shuffledBits)
 }
 
+/**
+ * Converts a game code string back into a bit array, reversing the encoding process.
+ */
 function gameCodeToBits(code: GameCode): BitArray {
     const decodedBits = decodeStringToBits(code)
 
@@ -126,7 +136,32 @@ function gameCodeToBits(code: GameCode): BitArray {
 }
 
 /**
- * Applies a one-time pad to the input bits using a seed value causing the bits to appear completely random.
+ * Calculates the epoch day on which the game was created based on the "date offset" stored in the game code.
+ */
+function getGameCreationEpochDay(gameDateOffset: number): number {
+    const offsetDiff = getTodaysDateOffset() - gameDateOffset
+    const daysSinceGameCreation = offsetDiff >= 0 ? offsetDiff : offsetDiff + valuesRepresentedByBits(DATE_OFFSET_BITS)
+    return currentEpochDay() - daysSinceGameCreation
+}
+
+/**
+ * Returns the "date offset" of today's date, which is a way to represent the current date within a limited number of
+ * bits. For example, if using two bits, it can represent two days (0 or 1), like today or yesterday.
+ */
+function getTodaysDateOffset(): number {
+    return currentEpochDay() % valuesRepresentedByBits(DATE_OFFSET_BITS)
+}
+
+/**
+ * Returns the current epoch day, which is the number of days since January 1, 1970.
+ */
+function currentEpochDay(): number {
+    return Math.floor(Date.now() / (1000 * 60 * 60 * 24))
+}
+
+/**
+ * Applies a one-time pad to the input bits causing the bits to appear completely random.
+ * Uses a seed value allowing the input to be reconstructed by applying the same operation again.
  */
 function oneTimePad(input: BitArray, seed: number): BitArray {
     const rng = seedrandom(seed.toString())
@@ -134,10 +169,9 @@ function oneTimePad(input: BitArray, seed: number): BitArray {
     return input.map((bit) => (bit ^ randBit()) as Bit)
 }
 
+/**
+ * Calculates a checksum for the given input bits.
+ */
 function checksum(input: BitArray): number {
-    return Number(bitsToBigInt(input) % BigInt(Math.pow(2, CHECKSUM_BITS)))
-}
-
-function bitmask(bitCount: number): number {
-    return Math.pow(2, bitCount) - 1
+    return Number(bitsToBigInt(input) % BigInt(valuesRepresentedByBits(CHECKSUM_BITS)))
 }

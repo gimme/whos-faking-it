@@ -1,31 +1,38 @@
-import { describe, expect, test, vi } from "vitest"
+import { type Assertion, describe, expect, test, vi } from "vitest"
 
 import { createGameSettings } from "@/app/game/domain/settings"
 
-import { encodeGameSettings, getDateOffsetFromGameCode } from "./settings-encoding.js"
+import { decodeGame, encodeGame } from "./settings-encoding.js"
 
-describe("getDateOffsetFromGameCode", () => {
-    const createDate = new Date("2025-06-20T12:00:00Z")
-
-    vi.setSystemTime(createDate)
+describe("getSeedFromGameCode", () => {
     const gameSettings = createGameSettings(3, [])
-    const gameCode = encodeGameSettings(gameSettings)
 
-    test("game created today", () => {
-        vi.setSystemTime(new Date("2025-06-20T23:59:59Z"))
-        expect(getDateOffsetFromGameCode(gameCode)).toBe(0)
-    })
+    function expectSeedToBeTheSameForTwoDaysInARow(date: Date) {
+        vi.setSystemTime(date)
+        const gameCode = encodeGame(gameSettings)
+        const seed = decodeGame(gameCode).seed
 
-    test("game created yesterday", () => {
-        vi.setSystemTime(new Date("2025-06-21T00:00:00Z"))
-        expect(getDateOffsetFromGameCode(gameCode)).toBe(1)
+        const expectSeed: () => Assertion = () => {
+            vi.setSystemTime(date)
+            return expect(decodeGame(gameCode).seed)
+        }
 
-        vi.setSystemTime(new Date("2025-06-21T23:59:59Z"))
-        expect(getDateOffsetFromGameCode(gameCode)).toBe(1)
-    })
+        // Same day before midnight
+        date.setUTCHours(23, 59, 59)
+        expectSeed().toBe(seed)
 
-    test("really old game", () => {
-        vi.setSystemTime(new Date("2025-06-28T00:00:00Z"))
-        expect(getDateOffsetFromGameCode(gameCode)).toBe(0)
+        // Next day before midnight
+        date.setUTCDate(date.getUTCDate() + 1)
+        expectSeed().toBe(seed)
+
+        // Next day after midnight
+        date.setUTCSeconds(date.getUTCSeconds() + 1)
+        expectSeed().not.toBe(seed)
+    }
+
+    test("returns the same seed for two days in a row", () => {
+        expectSeedToBeTheSameForTwoDaysInARow(new Date("2025-06-20T00:00:00Z"))
+        expectSeedToBeTheSameForTwoDaysInARow(new Date("2025-06-21T12:00:00Z"))
+        expectSeedToBeTheSameForTwoDaysInARow(new Date("2025-06-22T12:00:00Z"))
     })
 })

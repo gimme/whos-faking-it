@@ -58,6 +58,13 @@ export function bitsRequiredFor(value: number) {
 }
 
 /**
+ * Returns the number of values that can be represented by the given number of bits.
+ */
+export function valuesRepresentedByBits(bits: number): number {
+    return 1 << bits
+}
+
+/**
  * Returns the indices of bits that are set to 1 in the given array.
  */
 export function bitsToIndices(bits: BitArray): number[] {
