@@ -29,7 +29,7 @@ const minutes: PromptCardSpec = {
         "How long do you stay in bed after waking up?",
         "How long does it take you to eat breakfast?",
         "How long does it take you to cook dinner?",
-        "How long does it take you to commute to work?",
+        "How long does it take you to commute to work/school?",
         "How much time do you spend watching TV per day?",
         "How much time do you spend on social media per day?",
         "How much time do you spend reading per day?",
@@ -105,9 +105,22 @@ const howLongItTakesYou: PromptCardSpec = {
     fakePrompts: ["Pick a duration, up to 1 year."],
 }
 
+const mile: PromptCardSpec = {
+    prompts: [
+        "How fast can you run a mile?",
+        "How fast can you walk a mile?",
+        "What's the fastest you've ever run a mile?",
+        "If you had 3 months to train, how fast could you run a mile?",
+        "What's the average time to run a mile?",
+        "What's this group's average time to run a mile?",
+        "How fast could someone run a mile after 1 year of training?",
+    ],
+    fakePrompts: ["Pick a time from 5–15 minutes."],
+}
+
 const fasting: PromptCardSpec = {
-    realPrompts: ["How long would fast for $50,000?"],
-    fakePrompts: ["How long would fast for $1,000?", "How long would fast for $1,000,000?"],
+    realPrompts: ["How long would you fast for $50,000?"],
+    fakePrompts: ["How long would you fast for $1,000?", "How long would you fast for $1,000,000?"],
 }
 
 const withoutSleep: PromptCardSpec = {
@@ -115,14 +128,6 @@ const withoutSleep: PromptCardSpec = {
     fakePrompts: [
         "How long would you go without sleep for $1,000?",
         "How long would you go without sleep for $1,000,000?",
-    ],
-}
-
-const liveInTheWoods: PromptCardSpec = {
-    realPrompts: ["How long would you live in the woods for $50,000?"],
-    fakePrompts: [
-        "How long would you live in the woods for $1,000?",
-        "How long would you live in the woods for $1,000,000?",
     ],
 }
 
@@ -144,9 +149,9 @@ export const durationModule: Module = {
         months,
         years,
         howLongItTakesYou,
+        mile,
         fasting,
         withoutSleep,
-        liveInTheWoods,
         darkRoom,
     ],
 }

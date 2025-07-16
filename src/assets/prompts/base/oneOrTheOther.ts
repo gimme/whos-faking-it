@@ -43,13 +43,6 @@ const introvertedVsExtroverted: PromptCardSpec = {
     ],
 }
 
-const legOrArm: PromptCardSpec = {
-    prompts: [
-        "If you had to lose a limb, what would you rather lose?",
-        "If you had to lose a limb, what would you rather keep?",
-    ],
-}
-
 const humble: PromptCardSpec = {
     prompts: ["Pick one: smart, beautiful, athletic, rich.", "Remove one: smart, beautiful, athletic, rich."],
 }
@@ -62,31 +55,39 @@ const aliens: PromptCardSpec = {
     prompts: ["Are there aliens out there?", "Are we alone in the universe?"],
 }
 
+const armVsLeg: PromptCardSpec = {
+    prompts: ["Would you rather: lose an arm or a leg?", "What's worse: lose an arm or a leg?"],
+}
+
+const armsVsLegs: PromptCardSpec = {
+    prompts: ["Would you rather: have no arms or no legs?", "What's worse: no arms or no legs?"],
+}
+
 const prisonVsExile: PromptCardSpec = {
     prompts: [
         "Would you rather: spend 1 year in prison or be banished from your country forever?",
-        "What's worse: spend 1 year in prison or be banished from your country forever?",
+        "What's worse: 1 year in prison or banished from your country forever?",
     ],
 }
 
 const musicVsMovies: PromptCardSpec = {
     prompts: [
         "Would you rather: live in a world without music or without movies?",
-        "What's worse: live in a world without music or without movies?",
+        "What's worse: a world without music or without movies?",
     ],
 }
 
 const moneyVsTime: PromptCardSpec = {
     prompts: [
         "Would you rather: have unlimited money or unlimited time?",
-        "What's worse: have unlimited money or unlimited time?",
+        "What's worse: unlimited money or unlimited time?",
     ],
 }
 
 const internetVsNature: PromptCardSpec = {
     prompts: [
         "Would you rather: live in a world without the internet or without nature?",
-        "What's worse: live in a world without the internet or without nature?",
+        "What's worse: a world without the internet or without nature?",
     ],
 }
 
@@ -101,10 +102,11 @@ export const oneOrTheOtherModule: Module = {
         innerMonologue,
         creativeVsLogical,
         introvertedVsExtroverted,
-        legOrArm,
         humble,
         menWomenDrama,
         aliens,
+        armVsLeg,
+        armsVsLegs,
         prisonVsExile,
         musicVsMovies,
         moneyVsTime,

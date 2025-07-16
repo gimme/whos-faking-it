@@ -7,7 +7,7 @@ const who: PromptCardSpec = {
         "Who in the group is the funniest?",
         "Who in the group is the most likely to go to jail?",
         "Who in the group is the most likely to break something?",
-        "Who in the group has the best style?",
+        "Who in the group has the best fashion sense?",
         "Who in the group swears the most?",
         "Who in the group is the most likely to become famous?",
         "Who in the group is the most likely to become rich?",
