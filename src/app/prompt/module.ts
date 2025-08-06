@@ -15,11 +15,18 @@ export type Module = {
      * If not specified, there is no limit.
      */
     readonly maxCards?: number
+    /**
+     * The minimum number of players required to use this module.
+     */
+    readonly minPlayers?: number
 }
 
-export function generateCardsFromModule(module: Module, rng: RNG): ReadonlyArray<Card> {
+export function generateCardsFromModule(module: Module, playerCount: number, rng: RNG): ReadonlyArray<Card> {
+    if (playerCount < (module.minPlayers ?? 0)) return []
+
     const moduleCards = module.promptSpecs?.flatMap((promptSpec) => generateCardsFromSpec(promptSpec, rng)) ?? []
-    const subModuleCards = module.subModules?.flatMap((subModule) => generateCardsFromModule(subModule, rng)) ?? []
+    const subModuleCards =
+        module.subModules?.flatMap((subModule) => generateCardsFromModule(subModule, playerCount, rng)) ?? []
 
     const randomlySelectedCards = getRandomSelection([...moduleCards, ...subModuleCards], module.maxCards, rng)
     return randomlySelectedCards.map((card) => ({

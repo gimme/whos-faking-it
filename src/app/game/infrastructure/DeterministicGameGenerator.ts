@@ -55,7 +55,7 @@ function generateRounds(settings: GameSettings, code: GameCode): ReadonlyArray<R
         includedModules.length !== 0
             ? ALL_PLAYABLE_MODULES.filter((_, index) => includedModules.includes(index))
             : [DEFAULT_MODULE] // Default if none are selected
-    const generatedCards = modulesToUse.flatMap((module) => generateCardsFromModule(module, rng))
+    const generatedCards = modulesToUse.flatMap((module) => generateCardsFromModule(module, settings.seatCount, rng))
     const deckSizeLimit = 99
     const shuffledDeck = shuffleCards(generatedCards, rng).slice(0, deckSizeLimit)
 

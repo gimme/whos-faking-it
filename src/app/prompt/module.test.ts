@@ -42,7 +42,7 @@ describe("generateCardsFromModule", () => {
         const rng = seedrandom("test-seed")
 
         const largeSampleOfCards = Array.from({ length: 1000 }, () => {
-            const cards = generateCardsFromModule(module, rng)
+            const cards = generateCardsFromModule(module, 4, rng)
 
             const promptsUsed = new Set<string>()
             cards.forEach((card) => {
@@ -80,6 +80,26 @@ describe("generateCardsFromModule", () => {
 
         expectCloseTo(realCount / totalCount, 0.62)
         expectCloseTo(fakeCount / totalCount, 0.67)
+    })
+
+    test("excludes module when minPlayers is not met", () => {
+        const module: Module = {
+            subModules: [
+                {
+                    promptSpecs: [{ prompts: ["A Prompt 1", "A Prompt 2"] }],
+                },
+                {
+                    promptSpecs: [{ prompts: ["B Prompt 1", "B Prompt 2"] }],
+                    minPlayers: 4,
+                },
+            ],
+        }
+
+        const rng = seedrandom("test-seed")
+        const cards = generateCardsFromModule(module, 3, rng)
+
+        expect(cards.length).toBe(1) // Only the first submodule should contribute cards
+        expect(cards.every((card) => card.realPrompt.startsWith("A Prompt"))).toBe(true)
     })
 })
 
