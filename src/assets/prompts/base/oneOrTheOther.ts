@@ -91,6 +91,22 @@ const internetVsNature: PromptCardSpec = {
     ],
 }
 
+const wheelsVsDoors: PromptCardSpec = {
+    prompts: [
+        "Which is there more of in the world: wheels or doors?",
+        "Which is there less of in the world: wheels or doors?",
+    ],
+    tags: ["trivia"],
+}
+
+const humansVsChickens: PromptCardSpec = {
+    prompts: [
+        "Which is there more of in the world: humans or chickens?",
+        "Which is there less of in the world: humans or chickens?",
+    ],
+    tags: ["trivia"],
+}
+
 export const oneOrTheOtherModule: Module = {
     promptSpecs: [
         gorillaVsHuman,
@@ -111,5 +127,7 @@ export const oneOrTheOtherModule: Module = {
         musicVsMovies,
         moneyVsTime,
         internetVsNature,
+        wheelsVsDoors,
+        humansVsChickens,
     ],
 }

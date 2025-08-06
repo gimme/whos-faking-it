@@ -11,15 +11,20 @@ const vacation: PromptCardSpec = {
 }
 
 const liveAbroad: PromptCardSpec = {
-    prompts: ["What's a foreign place you'd want to live in?", "What's a place you'd want to visit for vacation only?"],
+    prompts: [
+        "What's a foreign place you'd want to live in?",
+        "What's a place you'd want to visit for vacation only and not live in?",
+    ],
 }
 
 const country: PromptCardSpec = {
     prompts: [
         "If you couldn't live in your current country, where would you want to live?",
-        "What country has the most attractive people?",
-        "What country has the best food?",
-        "What country do you think is the most beautiful?",
+        "Which country has the most attractive people?",
+        "Which country has the best food?",
+        "Which country do you think is the most beautiful?",
+        "Name a country you'd never want to live in.",
+        { tags: ["trivia"], prompt: "Which country has the most tigers?" },
     ],
 }
 

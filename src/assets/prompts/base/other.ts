@@ -111,12 +111,29 @@ const timeOfDay: PromptCardSpec = {
 }
 
 const app: PromptCardSpec = {
-    realPrompts: ["What app do you use the most on your phone?"],
+    realPrompts: ["Which app do you use the most on your phone?"],
     fakePrompts: ["Name an app you keep on your home screen."],
 }
 
 const getRich: PromptCardSpec = {
     prompts: ["What's the best way to get rich quick?", "What's the worst way to get rich quick?"],
+}
+
+const personalName: PromptCardSpec = {
+    prompts: [
+        "If you had to choose a new name for yourself, what would it be?",
+        "What's a good name for a dog?",
+        "What's a good name to name your child?",
+        "What's a bad name to name your child?",
+    ],
+    fakePrompts: ["Name a person you know (first name only)."],
+}
+
+const phrases: PromptCardSpec = {
+    prompts: [
+        "What's the best thing to say when responding to a spam call?",
+        "What's the best line to use when breaking up with someone?",
+    ],
 }
 
 export const otherModule: Module = {
@@ -139,5 +156,7 @@ export const otherModule: Module = {
         timeOfDay,
         app,
         getRich,
+        personalName,
+        phrases,
     ],
 }

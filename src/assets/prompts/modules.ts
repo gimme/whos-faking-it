@@ -15,7 +15,7 @@ import { oneOrTheOtherModule } from "@/assets/prompts/base/oneOrTheOther"
 import { otherModule } from "@/assets/prompts/base/other"
 import { percentModule } from "@/assets/prompts/base/percent"
 
-export const coreModule: Module = {
+const coreModule: Module = {
     subModules: [
         activityModule,
         ageModule,

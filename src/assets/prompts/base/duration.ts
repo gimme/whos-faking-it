@@ -71,6 +71,10 @@ const days: PromptCardSpec = {
         "Not counting today, how long has it been since your last shower?",
         "How long has it been since you washed your bedsheets?",
         "How long would you survive in the zombie apocalypse?",
+        {
+            tags: ["trivia"],
+            prompt: "How long does it take for a banana peel to decompose on the ground?",
+        },
     ],
     fakePrompts: ["Pick a number of days from 1–10."],
 }
@@ -83,14 +87,26 @@ const months: PromptCardSpec = {
 const years: PromptCardSpec = {
     prompts: [
         "How long should you date someone before getting engaged?",
-        "How long should you date someone before marrying them?",
-        "How long have you had your current phone?",
+        "How long should you date someone before having kids with them?",
+        "How long should you have a phone before upgrading?",
         "For how many years did you believe in Santa?",
-        "How long did you live in your childhood home?",
-        "How long was your longest relationship?",
-        "How long should you stay at the same job?",
+        "How long should you live in a city before calling it home?",
+        "How long should you stay at the same job before looking for a new one?",
+        { tags: ["trivia"], prompt: "How long did World War I last?" },
+        {
+            tags: ["trivia"],
+            prompt: "How long does it take for a plastic bottle to completely disintegrate in the ocean?",
+        },
     ],
     fakePrompts: ["Pick a number of years from 1–10."],
+}
+
+const manyYears: PromptCardSpec = {
+    prompts: [
+        "How many good years do you think you have left to live?",
+        "How many years have you known your oldest friend?",
+    ],
+    fakePrompts: ["Pick a number of years between 1 and your current age."],
 }
 
 const howLongItTakesYou: PromptCardSpec = {
@@ -148,6 +164,7 @@ export const durationModule: Module = {
         days,
         months,
         years,
+        manyYears,
         howLongItTakesYou,
         mile,
         fasting,

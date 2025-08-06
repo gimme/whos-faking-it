@@ -5,6 +5,7 @@ const howManyTimesPer: PromptCardSpec = {
     prompts: [
         "How many times per day do you go to the bathroom?",
         "How many times per week do you take a shower?",
+        "How many times per week do you wash your hair?",
         "How many times per week do you brush your teeth?",
         "How many times per week do you drink coffee?",
         "How many times per week do you exercise?",
@@ -57,7 +58,6 @@ const howManyLow: PromptCardSpec = {
         "How many children could you take in a fight?",
         "How many times have you been seriously injured?",
         "How many pizza slices could you eat in one sitting?",
-        { tags: ["trivia"], prompt: "How many years did World War I last?" },
         { tags: ["trivia"], prompt: "How many manned missions have been sent to the moon?" },
         { tags: ["trivia"], prompt: "How many people have walked on the moon?" },
         { tags: ["trivia"], prompt: "How many sequels are there to The Fast and the Furious?" },
@@ -84,6 +84,7 @@ const howManyMedium: PromptCardSpec = {
         { tags: ["trivia"], prompt: "How many letters are there in the Arabic alphabet?" },
         { tags: ["trivia"], prompt: "How many eggs does a chicken lay in a month?" },
         { tags: ["trivia"], prompt: "How many players are there in a football team?" },
+        { tags: ["trivia"], prompt: "How many keys does a piano have?" },
     ],
     fakePrompts: [
         "Pick a number from 10–100.",
@@ -102,12 +103,29 @@ const howManyHigh: PromptCardSpec = {
         { tags: ["trivia"], prompt: "How many countries are there in the world?" },
         { tags: ["trivia"], prompt: "How many hieroglyphs are there?" },
         { tags: ["trivia"], prompt: "How many people have been to space?" },
-        {
-            tags: ["trivia"],
-            prompt: "How many years does it take for a plastic bottle to completely disintegrate in the ocean?",
-        },
+        { tags: ["trivia"], prompt: "How many airplanes are in the sky right now?" },
     ],
     fakePrompts: ["Pick a number from 100–10,000."],
+}
+
+const howManyVeryHigh: PromptCardSpec = {
+    prompts: [
+        { tags: ["trivia"], prompt: "How many cities are there in the world?" },
+        { tags: ["trivia"], prompt: "How many airplanes are there in the world?" },
+        { tags: ["trivia"], prompt: "How many rivers are there in the world?" },
+        { tags: ["trivia"], prompt: "How many species of mammals are there?" },
+        { tags: ["trivia"], prompt: "How many species of vertebrates are there?" },
+    ],
+    fakePrompts: ["Pick a number from 1,000–10,000,000."],
+}
+
+const howManySuperHigh: PromptCardSpec = {
+    prompts: [
+        { tags: ["trivia"], prompt: "How many dogs are there in the world?" },
+        { tags: ["trivia"], prompt: "How many cars are there in the world?" },
+        { tags: ["trivia"], prompt: "How many houses are there in the world?" },
+        { tags: ["trivia"], prompt: "How many phones are there in the world?" },
+    ],
 }
 
 const hotDogsForCash: PromptCardSpec = {
@@ -161,6 +179,15 @@ const outOf10: PromptCardSpec = {
 
 export const numericalModule: Module = {
     tags: ["numerical"],
-    promptSpecs: [howManyTimesPer, howManyLow, howManyMedium, howManyHigh, howManyContinents, outOf10],
+    promptSpecs: [
+        howManyTimesPer,
+        howManyLow,
+        howManyMedium,
+        howManyHigh,
+        howManyVeryHigh,
+        howManySuperHigh,
+        howManyContinents,
+        outOf10,
+    ],
     subModules: [hotDogsModule],
 }

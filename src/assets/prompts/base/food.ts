@@ -10,9 +10,9 @@ const food: PromptCardSpec = {
         "What's a good breakfast meal?",
         "What's your comfort food?",
         "Name something you had for lunch or dinner this week.",
-        "What's a food you have to try once?",
         "Name a food that's bad when cold.",
     ],
+    fakePrompts: ["What's your favorite type of food?"],
 }
 
 const breakfast: PromptCardSpec = {
@@ -35,9 +35,25 @@ const acquiredTaste: PromptCardSpec = {
 }
 
 const struggleMeal: PromptCardSpec = {
-    prompts: ['What\'s your "struggle meal"?', "What's the easiest thing to cook?", "What's a food you can cook well?"],
+    prompts: [
+        'What\'s your "struggle meal"?',
+        "What's the easiest thing to cook?",
+        "If you were rich, what simple food would you still eat?",
+    ],
+}
+
+const hardToCook: PromptCardSpec = {
+    prompts: ["What's a food that's hard to cook well?", "What's a food you can cook well?"],
+}
+
+const learnToCook: PromptCardSpec = {
+    prompts: ["What food do you want to learn to cook?", "What's your favorite food to make at home?"],
+}
+
+const twoIngredients: PromptCardSpec = {
+    prompts: ["What are the two worst ingredients to put in a smoothie?", "Name a food combo that weirdly works."],
 }
 
 export const foodModule: Module = {
-    promptSpecs: [food, breakfast, sweet, acquiredTaste, struggleMeal],
+    promptSpecs: [food, breakfast, sweet, acquiredTaste, struggleMeal, hardToCook, learnToCook, twoIngredients],
 }

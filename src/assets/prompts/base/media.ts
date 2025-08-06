@@ -5,40 +5,50 @@ const movie: PromptCardSpec = {
     prompts: [
         "What's your favorite movie?",
         "Name a movie you'd rate 8/10.",
-        'What\'s a "guilty pleasure" movie you have?',
-        "Name a movie you have to rewatch.",
+        'What\'s your "guilty pleasure" movie?',
+        "Name a movie you want to rewatch.",
         "Name a movie that can make you cry.",
         "Name a movie on your watchlist.",
-        "Name a good lesser known movie.",
+        "Name a good movie that's lesser known.",
         "What's the first adult movie you'd share with your kid?",
         "Name a movie that has a world you'd want to live in.",
         "Name a movie that would be uncomfortable to watch with your parents.",
     ],
-    fakePrompts: ["What's your favorite childhood movie?", "Invent a movie title (and plot)."],
+    fakePrompts: ["What's your favorite childhood movie?", "Invent a movie title."],
 }
 
 const series: PromptCardSpec = {
     prompts: [
         "What's your favorite series?",
         "Name a series you'd rate 8/10.",
-        'What\'s a "guilty pleasure" series you have?',
-        "Name a series you have to rewatch.",
+        'What\'s your "guilty pleasure" TV series?',
+        "Name a series you want to rewatch.",
         "Name a series that can make you cry.",
         "Name a series on your watchlist.",
-        "Name a series you think the others haven't heard of.",
+        "Name a good series you think the others haven't heard of.",
         "What's the first adult series you'd share with your kid?",
         "Name a series that has a world you'd want to live in.",
         "Name a series that would be uncomfortable to watch with your parents.",
     ],
-    fakePrompts: ["What's your favorite childhood series?"],
+    fakePrompts: ["Invent a title for a TV series."],
 }
 
-const movieOverUnderRated: PromptCardSpec = {
-    prompts: ["What movie is overrated?", "What movie is underrated?"],
+const movieUnderrated: PromptCardSpec = {
+    realPrompts: ["What movie is underrated?"],
+    fakePrompts: ["What movie is overrated?", "Name a bad popular movie."],
 }
 
-const seriesOverUnderRated: PromptCardSpec = {
-    prompts: ["What series is overrated?", "What series is underrated?"],
+const movieOverrated: PromptCardSpec = {
+    prompts: ["Name a 10/10 movie.", "Name an overrated movie."],
+}
+
+const seriesUnderrated: PromptCardSpec = {
+    realPrompts: ["What series is underrated?"],
+    fakePrompts: ["What series is overrated?", "Name a bad popular series."],
+}
+
+const seriesOverrated: PromptCardSpec = {
+    prompts: ["Name a 10/10 series.", "Name an overrated series."],
 }
 
 const recentlyWatched: PromptCardSpec = {
@@ -82,12 +92,21 @@ const oneWordTitle: PromptCardSpec = {
     ],
 }
 
+const realityShow: PromptCardSpec = {
+    prompts: [
+        "If you could be on any reality show, which one would it be?",
+        "What reality show would you never want to be on?",
+    ],
+}
+
 export const movieModule: Module = {
     promptSpecs: [
         movie,
         series,
-        movieOverUnderRated,
-        seriesOverUnderRated,
+        movieUnderrated,
+        movieOverrated,
+        seriesUnderrated,
+        seriesOverrated,
         recentlyWatched,
         movieFromThePast,
         movieRecommendation,
@@ -96,5 +115,6 @@ export const movieModule: Module = {
         seriesRating,
         unknownMovie,
         oneWordTitle,
+        realityShow,
     ],
 }
