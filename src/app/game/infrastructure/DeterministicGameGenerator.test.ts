@@ -95,10 +95,15 @@ describe("DeterministicGameGenerator", () => {
             expect(actualShare).toBeLessThanOrEqual(expectedShare + tolerance)
         }
 
-        expectDistribution(0, 1 / (seatCount + 2))
-        expectDistribution(1, seatCount / (seatCount + 2))
+        const zeroImpostorWeight = 1
+        const oneImpostorWeight = seatCount * 2 - 2
+        const multipleImpostorWeight = 1
+        const totalWeight = zeroImpostorWeight + oneImpostorWeight + multipleImpostorWeight
+
+        expectDistribution(0, zeroImpostorWeight / totalWeight)
+        expectDistribution(1, oneImpostorWeight / totalWeight)
         for (let i = 2; i <= seatCount; i++) {
-            expectDistribution(i, (1 / (seatCount + 2)) * (1 / (seatCount - 1)), 0.025)
+            expectDistribution(i, (multipleImpostorWeight / totalWeight) * (1 / (seatCount - 1)), 0.025)
         }
     })
 })

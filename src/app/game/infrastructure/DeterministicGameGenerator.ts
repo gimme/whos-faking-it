@@ -80,7 +80,7 @@ function shuffleCards(cards: Card[], rng: RNG): Card[] {
 
 function randomizeRoles(seatCount: SeatCount, rng: RNG): ReadonlyArray<Role> {
     function generateImpostorIndexes(): number[] {
-        const r = Math.floor(rng() * (seatCount + 2)) - 2
+        const r = Math.floor(rng() * (seatCount * 2)) - 2
         if (r === -2) {
             // Two or more impostors
             const numberOfImpostors = Math.floor(rng() * (seatCount - 1)) + 2
