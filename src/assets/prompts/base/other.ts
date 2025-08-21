@@ -91,8 +91,9 @@ const job: PromptCardSpec = {
     prompts: [
         "Name a job you'd want only if it paid well.",
         "Name a job you'd never want even if it paid well.",
-        "Name a job that would be nice to have.",
+        "Name a job that would be kind of nice to have.",
         "What did you want to be when you grew up?",
+        "If you could do anything for work, what would it be?",
     ],
 }
 
@@ -136,6 +137,14 @@ const phrases: PromptCardSpec = {
     ],
 }
 
+const traits: PromptCardSpec = {
+    prompts: [
+        "If you could level up one of your traits in real life, what would it be?",
+        "What's your best personality trait?",
+        "What personality trait do you admire in a friend?",
+    ],
+}
+
 export const otherModule: Module = {
     promptSpecs: [
         bench,
@@ -158,5 +167,6 @@ export const otherModule: Module = {
         getRich,
         personalName,
         phrases,
+        traits,
     ],
 }

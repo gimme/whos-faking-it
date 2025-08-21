@@ -24,6 +24,7 @@ const country: PromptCardSpec = {
         "Which country has the best food?",
         "Which country do you think is the most beautiful?",
         "Name a country you'd never want to live in.",
+        "Which country do you want to visit next?",
         { tags: ["trivia"], prompt: "Which country has the most tigers?" },
     ],
 }

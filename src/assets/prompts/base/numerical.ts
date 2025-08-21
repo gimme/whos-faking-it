@@ -108,6 +108,14 @@ const howManyHigh: PromptCardSpec = {
     fakePrompts: ["Pick a number from 100–10,000."],
 }
 
+const howManyClimbers: PromptCardSpec = {
+    prompts: [
+        { tags: ["trivia"], prompt: "How many people have summited Mount Everest?" },
+        { tags: ["trivia"], prompt: "How many people have summited Mount Kilimanjaro?" },
+        { tags: ["trivia"], prompt: "How many people have climbed the highest mountain in your country?" },
+    ],
+}
+
 const howManyVeryHigh: PromptCardSpec = {
     prompts: [
         { tags: ["trivia"], prompt: "How many cities are there in the world?" },
@@ -167,11 +175,14 @@ const outOf10: PromptCardSpec = {
         "Rate your cooking skills out of 10.",
         "Rate your fashion sense out of 10.",
         "Rate your acting skills out of 10.",
+        "Rate your intelligence out of 10.",
         "Rate your current mood out of 10.",
+        "Rate the weather today out of 10.",
         "Rate Interstellar out of 10.",
         "Rate Shrek out of 10.",
-        "Rate your work ethic 0-10.",
-        "How feminist are you out of 10?",
+        "Rate your work ethic out of 10.",
+        "Out of 10, how feminist would you say you are?",
+        "Out of 10, how happy would you say you are with your life?",
         "How many free throws can you make out of 10?",
     ],
     fakePrompts: ["Pick a number from 0–10."],
@@ -184,6 +195,7 @@ export const numericalModule: Module = {
         howManyLow,
         howManyMedium,
         howManyHigh,
+        howManyClimbers,
         howManyVeryHigh,
         howManySuperHigh,
         howManyContinents,

@@ -42,6 +42,10 @@ const minutes: PromptCardSpec = {
     fakePrompts: ["Pick a number of minutes from 1–60."],
 }
 
+const drive: PromptCardSpec = {
+    prompts: ["How long does a drive have to be to be considered long?", "What's the longest commute you've ever had?"],
+}
+
 const hours: PromptCardSpec = {
     prompts: [
         "How long does it take you to get ready for a vacation?",
@@ -152,6 +156,7 @@ const darkRoom: PromptCardSpec = {
     fakePrompts: [
         "How long would you live in a pitch-black room without human contact for $10,000?",
         "How long would you live in a pitch-black room without human contact for $2,000,000?",
+        "How long of a prison sentence would you accept for $100,000?",
     ],
 }
 
@@ -160,6 +165,7 @@ export const durationModule: Module = {
         screenTime,
         sleep,
         minutes,
+        drive,
         hours,
         days,
         months,

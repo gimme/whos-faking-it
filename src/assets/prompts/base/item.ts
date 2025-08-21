@@ -35,6 +35,14 @@ const lottery: PromptCardSpec = {
     fakePrompts: ["What's something expensive that you wouldn't want even if it was free?"],
 }
 
+const peasant: PromptCardSpec = {
+    prompts: [
+        "If you could show a medieval peasant one thing from modern times, what would it be?",
+        "What's a modern piece of technology you COULD live without?",
+    ],
+    fakePrompts: ["Name something you could not live without."],
+}
+
 export const itemModule: Module = {
-    promptSpecs: [item, passingTime, purchase, lottery],
+    promptSpecs: [item, passingTime, purchase, lottery, peasant],
 }
