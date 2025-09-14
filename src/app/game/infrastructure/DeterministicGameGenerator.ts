@@ -80,23 +80,40 @@ function shuffleCards(cards: Card[], rng: RNG): Card[] {
 
 function randomizeRoles(seatCount: SeatCount, rng: RNG): ReadonlyArray<Role> {
     function generateImpostorIndexes(): number[] {
-        const r = Math.floor(rng() * (seatCount * 2)) - 2
-        if (r === -2) {
-            // Two or more impostors
-            const numberOfImpostors = Math.floor(rng() * (seatCount - 1)) + 2
-            const allRoleIndices = Array.from({ length: seatCount }, (_, i) => i)
-            function pickRandomValues(values: number[], count: number): number[] {
-                if (count <= 0) return []
-                if (values.length === 0) return []
+        // Weighted random: More players -> more likely to have multiple impostors
+        // Weights: 0 impostors = 1, 1 impostor = seatCount * 2 - 2, 2+ impostors = 1
+        // Examples:
+        // 2 players:  0 = 1/3, 1 = 1/3, 2 = 1/3
+        // 3 players:  0 = 1/5, 1 = 3/5, 2 = 1/5
+        // 4 players:  0 = 1/7, 1 = 5/7, 2 = 1/7
+        // 5 players:  0 = 1/9, 1 = 7/9, 2 = 1/9
+        // 6 players:  0 = 1/11, 1 = 9/11, 2 = 1/11
 
-                const randomValue = values[Math.floor(rng() * values.length)]
-                const leftoverIndices = values.filter((v) => v !== randomValue)
-                return pickRandomValues(leftoverIndices, count - 1).concat(randomValue)
-            }
-            return pickRandomValues(allRoleIndices, numberOfImpostors)
+        const weightZeroImpostors = 1
+        const weightOneImpostor = seatCount === 2 ? 1 : 8
+        const weightMultipleImpostors = 1
+        const totalWeight = weightZeroImpostors + weightOneImpostor + weightMultipleImpostors
+
+        let r = rng()
+
+        r -= weightZeroImpostors / totalWeight
+        if (r < 0) return [] // No impostors
+
+        r -= weightOneImpostor / totalWeight
+        if (r < 0) return [Math.floor(rng() * seatCount)] // One impostor
+
+        // Two or more impostors
+        const numberOfImpostors = Math.floor(rng() * (seatCount - 1)) + 2
+        const allRoleIndices = Array.from({ length: seatCount }, (_, i) => i)
+        function pickRandomValues(values: number[], count: number): number[] {
+            if (count <= 0) return []
+            if (values.length === 0) return []
+
+            const randomValue = values[Math.floor(rng() * values.length)]
+            const leftoverIndices = values.filter((v) => v !== randomValue)
+            return pickRandomValues(leftoverIndices, count - 1).concat(randomValue)
         }
-        if (r === -1) return [] // No impostors
-        return [Math.floor(rng() * seatCount)] // One impostor
+        return pickRandomValues(allRoleIndices, numberOfImpostors)
     }
 
     const impostorIndices = generateImpostorIndexes()

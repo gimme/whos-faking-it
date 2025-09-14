@@ -69,7 +69,7 @@ describe("DeterministicGameGenerator", () => {
         expect(game1).toEqual(game2)
     })
 
-    const testSeatCounts: SeatCount[] = [3, 4, 5]
+    const testSeatCounts: SeatCount[] = [2, 3, 4, 5]
     test.each(testSeatCounts)("has expected impostor distribution for %i players", (seatCount: SeatCount) => {
         const settings = createGameSettings(seatCount, [])
         const games = Array.from({ length: 200 }, () => gameService.createNewGame(settings))
@@ -96,7 +96,7 @@ describe("DeterministicGameGenerator", () => {
         }
 
         const zeroImpostorWeight = 1
-        const oneImpostorWeight = seatCount * 2 - 2
+        const oneImpostorWeight = seatCount === 2 ? 1 : 8
         const multipleImpostorWeight = 1
         const totalWeight = zeroImpostorWeight + oneImpostorWeight + multipleImpostorWeight
 
