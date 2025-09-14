@@ -89,7 +89,7 @@ describe("DeterministicGameGenerator", () => {
             const count = countRoundsWithImpostorCount(impostorCount)
             const actualShare = count / totalRounds
             console.info(
-                `${impostorCount} impostors: Out of ${count} rounds -> Expected: ${expectedShare * 100}% ± ${tolerance * 100}%; got ${actualShare * 100}%`,
+                `${impostorCount} impostors, ${count} rounds -> Expected: ${expectedShare * 100}% ± ${tolerance * 100}%; got ${actualShare * 100}%`,
             )
             expect(actualShare).toBeGreaterThanOrEqual(expectedShare - tolerance)
             expect(actualShare).toBeLessThanOrEqual(expectedShare + tolerance)
@@ -100,6 +100,7 @@ describe("DeterministicGameGenerator", () => {
         const multipleImpostorWeight = 1
         const totalWeight = zeroImpostorWeight + oneImpostorWeight + multipleImpostorWeight
 
+        console.info(`\nImpostor distribution for ${seatCount} players out of ${totalRounds} rounds:`)
         expectDistribution(0, zeroImpostorWeight / totalWeight)
         expectDistribution(1, oneImpostorWeight / totalWeight)
         for (let i = 2; i <= seatCount; i++) {
